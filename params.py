@@ -292,7 +292,7 @@ class ParamInt(PPanel):
         PPanel.__init__(self, parent, name)
         sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.spin = wx.SpinButton(self, style = wx.SP_VERTICAL, size=(-1,10))
-        textW = 60 - self.spin.GetSize()[0]
+        textW = max(60, 60 - self.spin.GetSize()[0])
         self.text = wx.TextCtrl(self, size=(textW,textH))
         self.spin.SetRange(*self.range)
         if wx.Platform == '__WXMAC__':

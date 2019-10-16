@@ -40,9 +40,6 @@
     <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
   </object>
   <object class="wxDialog" name="DIALOG_CONTENT">
-    <title>Content</title>
-    <centered>1</centered>
-    <size>250,300</size>
     <object class="wxBoxSizer">
       <orient>wxVERTICAL</orient>
       <object class="sizeritem">
@@ -129,6 +126,9 @@
         <border>10</border>
       </object>
     </object>
+    <size>250,300</size>
+    <title>Content</title>
+    <centered>1</centered>
     <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
   </object>
   <object class="wxDialog" name="DIALOG_CONTENT_CHECKLIST">
@@ -217,8 +217,6 @@
     <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
   </object>
   <object class="wxDialog" name="DIALOG_CHOICES">
-    <title>Choices</title>
-    <centered>1</centered>
     <object class="wxBoxSizer">
       <orient>wxVERTICAL</orient>
       <object class="sizeritem">
@@ -249,11 +247,11 @@
         <border>10</border>
       </object>
     </object>
+    <title>Choices</title>
+    <centered>1</centered>
     <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
   </object>
   <object class="wxDialog" name="DIALOG_STYLES">
-    <title>Window Styles</title>
-    <centered>1</centered>
     <object class="wxBoxSizer">
       <orient>wxVERTICAL</orient>
       <object class="sizeritem">
@@ -308,12 +306,11 @@
         <border>10</border>
       </object>
     </object>
+    <title>Window Styles</title>
+    <centered>1</centered>
     <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
   </object>
   <object class="wxDialog" name="DIALOG_INTLIST">
-    <title>Numbers</title>
-    <centered>1</centered>
-    <size>100,300</size>
     <object class="wxBoxSizer">
       <orient>wxVERTICAL</orient>
       <object class="sizeritem">
@@ -321,8 +318,7 @@
           <orient>wxHORIZONTAL</orient>
           <object class="sizeritem">
             <object class="wxListBox" name="LIST">
-              <content/>
-              <size>80,150</size>
+              <size>100,150</size>
               <style>wxLB_SORT</style>
             </object>
             <option>1</option>
@@ -333,9 +329,7 @@
             <object class="wxBoxSizer">
               <orient>wxVERTICAL</orient>
               <object class="sizeritem">
-                <object class="wxSpinCtrl" name="SPIN">
-                  <size>60,-1</size>
-                </object>
+                <object class="wxSpinCtrl" name="SPIN"/>
                 <flag>wxBOTTOM</flag>
                 <border>5</border>
               </object>
@@ -343,19 +337,20 @@
                 <object class="wxButton" name="BUTTON_ADD">
                   <label>Add</label>
                 </object>
-                <flag>wxBOTTOM</flag>
+                <flag>wxBOTTOM|wxEXPAND</flag>
                 <border>5</border>
               </object>
               <object class="sizeritem">
                 <object class="wxButton" name="BUTTON_REMOVE">
                   <label>Remove</label>
                 </object>
+                <flag>wxEXPAND</flag>
               </object>
               <object class="sizeritem">
                 <object class="wxButton" name="BUTTON_CLEAR">
                   <label>Clear</label>
                 </object>
-                <flag>wxTOP</flag>
+                <flag>wxTOP|wxEXPAND</flag>
                 <border>5</border>
               </object>
             </object>
@@ -385,6 +380,9 @@
         <border>10</border>
       </object>
     </object>
+    <size>200,300</size>
+    <title>Numbers</title>
+    <centered>1</centered>
     <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
   </object>
   <object class="wxPanel" name="PANEL_BITMAP">
@@ -500,7 +498,6 @@
     </object>
   </object>
   <object class="wxDialog" name="PYTHON_OPTIONS">
-    <title>Python Module Config</title>
     <object class="wxBoxSizer">
       <orient>wxVERTICAL</orient>
       <object class="sizeritem">
@@ -606,6 +603,7 @@
         <border>10</border>
       </object>
     </object>
+    <title>Python Module Config</title>
   </object>
   <object class="wxPropertySheetDialog" name="DIALOG_PREFS">
     <object class="propertysheetpage">
