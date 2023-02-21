@@ -8,7 +8,7 @@ from .globals import *
 from .component import Manager, DEFAULT_POS
 from . import view
 from . import images
-import wx.lib.foldpanelbar as fpb
+import wx.lib.agw.foldpanelbar as fpb
 
 #if wx.Platform in ['__WXMAC__', '__WXMSW__']:
     # Mac and Win are better off with generic
@@ -22,10 +22,10 @@ class ToolPanel(wx.PyPanel):
     defaultPos = wx.GBPosition(*DEFAULT_POS)
     def __init__(self, parent):
         if wx.Platform == '__WXGTK__':
-            wx.PyPanel.__init__(self, parent, -1,
+            wx.Panel.__init__(self, parent, -1,
                              style=wx.RAISED_BORDER|wx.WANTS_CHARS)
         else:
-            wx.PyPanel.__init__(self, parent, -1, style=wx.WANTS_CHARS)
+            wx.Panel.__init__(self, parent, -1, style=wx.WANTS_CHARS)
         self.bg = wx.Colour(115, 180, 215)
         # Top sizer
         sizer = wx.BoxSizer(wx.VERTICAL)
@@ -93,11 +93,11 @@ class ToolPanel(wx.PyPanel):
         button.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDownOnButton)
         button.Bind(wx.EVT_MOTION, self.OnMotionOnButton)
         button.Bind(wx.EVT_BUTTON, self.OnButton)
-        button.SetToolTipString(text)
+        button.SetToolTip(text)
         # Look for an available place if not specified
         r0,c0 = 0,0
         if pos != self.defaultPos:
-            if panel.sizer.CheckForIntersectionPos(pos, span):
+            if panel.sizer.CheckForIntersection(pos, span):
                 r0,c0 = pos     # start from pos
                 pos = self.defaultPos   # reset to default
         if pos == self.defaultPos:
@@ -105,7 +105,7 @@ class ToolPanel(wx.PyPanel):
             try:
                 for r in range(r0, panel.size.rowspan):
                     for c in range(c0, panel.size.colspan):
-                        if not panel.sizer.CheckForIntersectionPos((r,c), span):
+                        if not panel.sizer.CheckForIntersection((r,c), span):
                             pos = (r,c)
                             raise StopIteration
             except StopIteration:

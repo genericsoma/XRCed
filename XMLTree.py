@@ -87,7 +87,7 @@ class XMLTree(wx.TreeCtrl):
             wx.LogWarning('Unknown component class "%s", registered as generic' % className)
         item = self.AppendItem(parent, comp.getTreeText(node),
                                image=comp.getTreeImageId(node),
-                               data=wx.TreeItemData(node))
+                               data=node)
         self.SetItemStyle(item, node)
         # Try to find children objects
         if comp.isContainer():
@@ -129,7 +129,7 @@ Allow to execute?''', 'Warning', wx.ICON_EXCLAMATION | wx.YES_NO)
         '''Update all items after changes in model.'''
         self.Clear()
         # Update root item
-        self.SetPyData(self.root, Model.mainNode)
+        self.SetItemData(self.root, Model.mainNode)
         # (first node is test node, skip it)
         for n in filter(is_object, Model.mainNode.childNodes[1:]):
             self.AddNode(self.root, n)
@@ -241,7 +241,7 @@ Allow to execute?''', 'Warning', wx.ICON_EXCLAMATION | wx.YES_NO)
 
     # Find item with given data (node)
     def Find(self, item, name):
-        node = self.GetPyData(item)
+        node = self.GetItemData(item)
         if is_element(node) and node.getAttribute('name') == name:
             return item
         item,cookie = self.GetFirstChild(item)

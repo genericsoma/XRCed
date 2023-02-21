@@ -81,11 +81,11 @@ class UndoCutDelete(Undo):
         Presenter.unselect()
         # Updating DOM. Find parent node first
         parentItem = view.tree.ItemAtFullIndex(self.itemIndex[:-1])
-        parentNode = view.tree.GetPyData(parentItem)
+        parentNode = view.tree.GetItemData(parentItem)
         parentComp = Manager.getNodeComp(parentNode)
         nextItem = view.tree.ItemAtFullIndex(self.itemIndex)
         if nextItem:
-            nextNode = parentComp.getTreeOrImplicitNode(view.tree.GetPyData(nextItem))
+            nextNode = parentComp.getTreeOrImplicitNode(view.tree.GetItemData(nextItem))
         else:
             nextNode = None
         # Insert before next
@@ -138,8 +138,8 @@ class UndoReplace(Undo):
         node = self.node
         data = wx.TreeItemData(node)
         parentItem = view.tree.GetItemParent(item)
-        parentNode = view.tree.GetPyData(parentItem)
-        self.node = view.tree.GetPyData(item)
+        parentNode = view.tree.GetItemData(parentItem)
+        self.node = view.tree.GetItemData(item)
         self.comp = Presenter.comp
         Presenter.container.replaceChild(parentNode, node, self.node)
         # Replace tree item: insert new, remove old

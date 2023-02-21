@@ -573,7 +573,7 @@ class Sizer(SmartContainer):
         return None                 # normally this is an error
 
     def getRect(self, obj):
-        rects = [wx.RectPS(obj.GetPosition(), obj.GetSize())]
+        rects = [wx.Rect(obj.GetPosition()[0], obj.GetPosition()[1], obj.GetSize()[0], obj.GetSize()[1])]
         for sizerItem in obj.GetChildren():
             rect = sizerItem.GetRect()
             rects.append(rect)

@@ -11,7 +11,6 @@ blocks.
 
 import string
 import os
-import wx.combo
 from .globals import *
 
 WARenameDict = {'fg': 'foreground', 'bg': 'background'}
@@ -35,7 +34,7 @@ def InitParams(panel):
 
     # make a custom bitmap showing "..."
     bw, bh = 14, 16
-    bmp = wx.EmptyBitmap(bw,bh)
+    bmp = wx.Bitmap(bw, bh)
     dc = wx.MemoryDC(bmp)
 
     # clear to a specific background colour
@@ -95,7 +94,7 @@ class ParamBinaryOr(PPanel):
         self.freeze = False
         sizer = wx.BoxSizer()
         popup = CheckListBoxComboPopup(self.values)
-        self.combo = wx.combo.ComboCtrl(self, size=(220,-1))
+        self.combo = wx.ComboCtrl(self, size=(220,-1))
         self.combo.SetPopupControl(popup)
         if wx.Platform == '__WXMAC__':
             sizer.Add(self.combo, 1, wx.ALL, 0)
@@ -1092,7 +1091,7 @@ class CheckListBoxComboPopup(wx.CheckListBox, wx.combo.ComboPopup):
                     logger.warning('unknown flag: %s: ignored.', i)
                     self.ignored.append(i)
 
-        wx.combo.ComboPopup.OnPopup(self)
+        wx.ComboPopup.OnPopup(self)
 
     def OnDismiss(self):
         combo = self.GetCombo()
@@ -1107,7 +1106,7 @@ class CheckListBoxComboPopup(wx.CheckListBox, wx.combo.ComboPopup):
             combo.SetValue(strValue)
             Presenter.setApplied(False)
 
-        wx.combo.ComboPopup.OnDismiss(self)
+        wx.ComboPopup.OnDismiss(self)
 
     if wx.Platform in ['__WXMAC__', '__WXMSW__']:
         def OnMotion(self, evt):

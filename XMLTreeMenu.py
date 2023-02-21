@@ -34,17 +34,17 @@ class XMLTreeMenu(wx.Menu):
             # Select correct label for submenu
             if createSibling:
                 if insertBefore:
-                    self.AppendMenu(ID.SIBLING, 'Create Sibling', menu,
+                    self.Append(ID.SIBLING, 'Create Sibling', menu,
                                     'Create sibling before selected object')
                 else:
-                    self.AppendMenu(ID.SIBLING, 'Create Sibling', menu,
+                    self.Append(ID.SIBLING, 'Create Sibling', menu,
                                     'Create sibling after selected object')
             else:
                 if insertBefore:
-                    self.AppendMenu(ID.INSERT, 'Insert', menu,
+                    self.Append(ID.INSERT, 'Insert', menu,
                                     'Create object as the first child')
                 else:
-                    self.AppendMenu(ID.APPEND, 'Append', menu,
+                    self.Append(ID.APPEND, 'Append', menu,
                                     'Create object as the last child')
             if comp is not Manager.rootComponent:
                 self.Append(ID.SUBCLASS, 'Sublass...', 'Define subclass')
@@ -55,7 +55,7 @@ class XMLTreeMenu(wx.Menu):
                     menu = self.CreateTopLevelMenu(container, ID.SHIFT)
                 else:
                     menu = self.CreateSubMenus(container, ID.SHIFT)
-                self.AppendMenu(ID.REPLACE, 'Replace With', menu,
+                self.Append(ID.REPLACE, 'Replace With', menu,
                                 'Replace selected object by another')
                 self.AppendSeparator()
 
@@ -98,7 +98,7 @@ class XMLTreeMenu(wx.Menu):
                 if comp.canHaveChild(component):
                     m.Append(component.id + idShift, label, help)
             if m.GetMenuItemCount():
-                menu.AppendMenu(ID.MENU, name, m)
+                menu.Append(ID.MENU, name, m)
                 menu.AppendSeparator()
             else:
                 m.Destroy()

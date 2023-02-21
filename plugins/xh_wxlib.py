@@ -6,7 +6,7 @@
 
 import wx
 import wx.xrc as xrc
-import wx.lib.foldpanelbar as fpb
+import wx.lib.agw.foldpanelbar as fpb
 from wx.lib.ticker_xrc import wxTickerXmlHandler
 
 from XRCed.globals import TRACE

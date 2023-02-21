@@ -25,7 +25,7 @@ def create_view():
     '''
 
     # Load resources
-    res = xrc.EmptyXmlResource()
+    res = xrc.XmlResource()
     res.Load(os.path.join(g.basePath, 'xrced.xrc'))
     g.res = res
 
@@ -85,7 +85,7 @@ class Frame(wx.Frame):
         self.ID_TOOL_LOCATE = wx.NewId()
 
         # Init HTML help
-        wx.FileSystem.AddHandler(wx.ZipFSHandler())
+        wx.FileSystem.AddHandler(wx.ArchiveFSHandler())
         self.htmlCtrl = wx.html.HtmlHelpController()
         programPath = os.path.dirname(__file__)
         if not (self.htmlCtrl.AddBook(os.path.join(programPath, "xrced.htb"))) :
@@ -192,8 +192,8 @@ class Frame(wx.Frame):
         g.fileHistory.UseMenu(self.recentMenu)
         g.fileHistory.AddFilesToMenu()
 
-        menu.AppendMenu(-1, 'Open &Recent', self.recentMenu, 'Open a recent file')
-        
+        menu.Append(-1, 'Open &Recent', self.recentMenu, 'Open a recent file')
+
         menu.AppendSeparator()
         menu.Append(wx.ID_SAVE, '&Save\tCtrl-S', 'Save XRC file')
         menu.Append(wx.ID_SAVEAS, 'Save &As...', 'Save XRC file under different name')
@@ -301,59 +301,59 @@ class Frame(wx.Frame):
         copy_bmp = wx.ArtProvider.GetBitmap(wx.ART_COPY, wx.ART_TOOLBAR)
         paste_bmp= wx.ArtProvider.GetBitmap(wx.ART_PASTE, wx.ART_TOOLBAR)
         if g.conf.TB_file:
-            tb.AddSimpleTool(wx.ID_NEW, new_bmp, 'New', 'New file')
-            tb.AddSimpleTool(wx.ID_OPEN, open_bmp, 'Open', 'Open file')
-            tb.AddSimpleTool(wx.ID_SAVE, save_bmp, 'Save', 'Save file')
+            tb.AddTool(wx.ID_NEW, 'New', new_bmp, 'New file')
+            tb.AddTool(wx.ID_OPEN, 'Open', open_bmp, 'Open file')
+            tb.AddTool(wx.ID_SAVE, 'Save', save_bmp, 'Save file')
             tb.AddSeparator()
         if g.conf.TB_undo:
-            tb.AddSimpleTool(wx.ID_UNDO, undo_bmp, 'Undo', 'Undo')
-            tb.AddSimpleTool(wx.ID_REDO, redo_bmp, 'Redo', 'Redo')
+            tb.AddTool(wx.ID_UNDO, 'Undo', undo_bmp, 'Undo')
+            tb.AddTool(wx.ID_REDO, 'Redo', redo_bmp, 'Redo')
             tb.AddSeparator()
         if g.conf.TB_copy:
-            tb.AddSimpleTool(wx.ID_CUT, cut_bmp, 'Cut', 'Cut')
-            tb.AddSimpleTool(wx.ID_COPY, copy_bmp, 'Copy', 'Copy')
-            tb.AddSimpleTool(self.ID_TOOL_PASTE, paste_bmp, 'Paste', 'Paste')
+            tb.AddTool(wx.ID_CUT, 'Cut', cut_bmp, 'Cut')
+            tb.AddTool(wx.ID_COPY, 'Copy', copy_bmp, 'Copy')
+            tb.AddTool(self.ID_TOOL_PASTE, 'Paste', paste_bmp, 'Paste')
             tb.AddSeparator()
         if g.conf.TB_move:
             bmp = wx.ArtProvider.GetBitmap(self.ART_MOVEUP, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(self.ID_MOVEUP, bmp,
-                             'Up', 'Move before previous sibling')
+            tb.AddTool(self.ID_MOVEUP,
+                             'Up', bmp, 'Move before previous sibling')
             bmp = wx.ArtProvider.GetBitmap(self.ART_MOVEDOWN, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(self.ID_MOVEDOWN, bmp,
-                             'Down', 'Move after next sibling')
+            tb.AddTool(self.ID_MOVEDOWN,
+                             'Down', bmp, 'Move after next sibling')
             bmp = wx.ArtProvider.GetBitmap(self.ART_MOVELEFT, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(self.ID_MOVELEFT, bmp,
-                             'Make Sibling', 'Make sibling of parent')
+            tb.AddTool(self.ID_MOVELEFT,
+                             'Make Sibling', bmp, 'Make sibling of parent')
             bmp = wx.ArtProvider.GetBitmap(self.ART_MOVERIGHT, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(self.ID_MOVERIGHT, bmp,
-                             'Make Child', 'Make child of previous sibling')
+            tb.AddTool(self.ID_MOVERIGHT,
+                             'Make Child', bmp, 'Make child of previous sibling')
         if long:
             tb.AddSeparator()
             bmp = wx.ArtProvider.GetBitmap(self.ART_LOCATE, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(self.ID_TOOL_LOCATE, bmp,
-                             'Locate', 'Locate control in test window and select it', True)
+            tb.AddTool(self.ID_TOOL_LOCATE,
+                             'Locate', bmp, 'Locate control in test window and select it', True)
             bmp = wx.ArtProvider.GetBitmap(self.ART_TEST, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(self.ID_TEST, bmp, 'Test', 'Test window')
+            tb.AddTool(self.ID_TEST, 'Test', bmp, 'Test window')
             bmp = wx.ArtProvider.GetBitmap(self.ART_REFRESH, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(wx.ID_REFRESH, bmp, 'Refresh', 'Refresh view')
+            tb.AddTool(wx.ID_REFRESH, 'Refresh', bmp, 'Refresh view')
             bmp = wx.ArtProvider.GetBitmap(self.ART_AUTO_REFRESH, wx.ART_TOOLBAR)
-            tb.AddSimpleTool(self.ID_AUTO_REFRESH, bmp,
-                             'Auto-refresh', 'Toggle auto-refresh mode', True)
+            tb.AddTool(self.ID_AUTO_REFRESH,
+                             'Auto-refresh', bmp, 'Toggle auto-refresh mode', True)
             tb.ToggleTool(self.ID_AUTO_REFRESH, g.conf.autoRefresh)
         tb.Realize()
         self.minWidth = tb.GetSize()[0] # minimal width is the size of toolbar
 
     def InitMiniFrameToolBar(self, tb):
         bmp = wx.ArtProvider.GetBitmap(self.ART_LOCATE, wx.ART_TOOLBAR)
-        tb.AddSimpleTool(self.ID_TOOL_LOCATE, bmp,
-                         'Locate', 'Locate control in test window and select it', True)
+        tb.AddTool(self.ID_TOOL_LOCATE,
+                         'Locate', bmp, 'Locate control in test window and select it', True)
         bmp = wx.ArtProvider.GetBitmap(self.ART_TEST, wx.ART_TOOLBAR)
-        tb.AddSimpleTool(self.ID_TEST, bmp, 'Test', 'Test window')
+        tb.AddTool(self.ID_TEST, 'Test', bmp, 'Test window')
         bmp = wx.ArtProvider.GetBitmap(self.ART_REFRESH, wx.ART_TOOLBAR)
-        tb.AddSimpleTool(wx.ID_REFRESH, bmp, 'Refresh', 'Refresh view')
+        tb.AddTool(wx.ID_REFRESH, 'Refresh', bmp, 'Refresh view')
         bmp = wx.ArtProvider.GetBitmap(self.ART_AUTO_REFRESH, wx.ART_TOOLBAR)
-        tb.AddSimpleTool(self.ID_AUTO_REFRESH, bmp,
-                         'Auto-refresh', 'Toggle auto-refresh mode', True)
+        tb.AddTool(self.ID_AUTO_REFRESH,
+                         'Auto-refresh', bmp, 'Toggle auto-refresh mode', True)
         tb.ToggleTool(self.ID_AUTO_REFRESH, g.conf.autoRefresh)
         tb.Realize()
 
@@ -573,6 +573,6 @@ class ToolArtProvider(wx.ArtProvider):
     def CreateBitmap(self, id, client, size):
         bmp = wx.NullBitmap
         if id in self.images:
-            bmp = wx.BitmapFromImage(self.images[id])
+            bmp = wx.Bitmap(self.images[id])
         return bmp
 

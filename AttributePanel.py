@@ -89,7 +89,7 @@ class Panel(wx.Panel):
                                       style=wx.BORDER_NONE)
         self.pinButton.SetBitmapSelected(images.ToolPinDown.GetBitmap())
         self.pinButton.SetToggle(g.conf.panelPinState)
-        self.pinButton.SetToolTipString('Sticky page selection')
+        self.pinButton.SetToolTip('Sticky page selection')
         pinSizer.Add(self.pinButton)
         topSizer.Add(pinSizer, 0, wx.EXPAND)
         self.sizer = sizer

@@ -130,15 +130,15 @@ class TestWindow:
             else: items.append(item)
         # Now traverse back, searching children
         obj = self.object
-        comp = Manager.getNodeComp(tree.GetPyData(self.item))
+        comp = Manager.getNodeComp(tree.GetItemData(self.item))
         while items and obj:
             if not (isinstance(obj, wx.Window) or isinstance(obj, wx.Sizer)):
                 return None
             parentItem = item
             item = items.pop()
             index = tree.ItemIndexWin(item)
-            obj = comp.getChildObject(tree.GetPyData(parentItem), obj, index)
-            node = tree.GetPyData(item)
+            obj = comp.getChildObject(tree.GetItemData(parentItem), obj, index)
+            node = tree.GetItemData(item)
             comp = Manager.getNodeComp(node)
         return obj
 
@@ -163,7 +163,7 @@ class TestWindow:
         tree = view.tree
         if not item or item == tree.root: return None
         if item == self.item:   # top-level
-            comp = Manager.getNodeComp(tree.GetPyData(item))
+            comp = Manager.getNodeComp(tree.GetItemData(item))
             rects = comp.getRect(self.object)
             if not self.frame and rects:
                 # Make rects relative to the object (for top-level windows)
@@ -185,7 +185,7 @@ class TestWindow:
         else:
             offset = wx.Point(0,0)
         rects = None
-        comp = Manager.getNodeComp(tree.GetPyData(self.item))
+        comp = Manager.getNodeComp(tree.GetItemData(self.item))
         while items and obj:
             if not (isinstance(obj, wx.Window) or isinstance(obj, wx.Sizer)):
                 return None
@@ -194,10 +194,10 @@ class TestWindow:
             parent = obj
             item = items.pop()
             index = tree.ItemIndexWin(item)
-            obj = comp.getChildObject(tree.GetPyData(parentItem), parent, index)
+            obj = comp.getChildObject(tree.GetItemData(parentItem), parent, index)
             if isinstance(parent, wx.Notebook) and index != parent.GetSelection():
                 parent.SetSelection(index)
-            node = tree.GetPyData(item)
+            node = tree.GetItemData(item)
             comp = Manager.getNodeComp(node)
             rects = comp.getRect(obj)
             if not rects: return None
@@ -312,9 +312,9 @@ class DropTarget(wx.DropTarget):
             if not g.Presenter.checkCompatibility(comp):
                 return wx.DragNone
             item = g.Presenter.create(comp)
-            node = view.tree.GetPyData(item)
+            node = view.tree.GetItemData(item)
             parentItem = view.tree.GetItemParent(item)
-            parentNode = view.tree.GetPyData(parentItem)
+            parentNode = view.tree.GetItemData(parentItem)
             parentComp = Manager.getNodeComp(parentNode)
             # If pos if not set by default and parent is not a sizer, set pos to
             # drop coordinates
@@ -409,10 +409,10 @@ class Highlight:
         if size.width == -1: size.width = 0
         if size.height == -1: size.height = 0
         self.Destroy(4)
-        self.lines[0].SetDimensions(pos.x, pos.y, size.width, 2)
-        self.lines[1].SetDimensions(pos.x, pos.y, 2, size.height)
-        self.lines[2].SetDimensions(pos.x + size.width - 2, pos.y, 2, size.height)
-        self.lines[3].SetDimensions(pos.x, pos.y + size.height - 2, size.width, 2)
+        self.lines[0].SetSize(pos.x, pos.y, size.width, 2)
+        self.lines[1].SetSize(pos.x, pos.y, 2, size.height)
+        self.lines[2].SetSize(pos.x + size.width - 2, pos.y, 2, size.height)
+        self.lines[3].SetSize(pos.x, pos.y + size.height - 2, size.width, 2)
         [l.Raise() for l in self.lines]
         if self.moreLines: [self.AddSizerItem(r) for r in rects]
 

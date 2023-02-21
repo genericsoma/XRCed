@@ -227,7 +227,7 @@ class _Listener:
         exts = 'XRC files (*.xrc)|*.xrc'
         if g.useMeta: exts += '|CRX files (*.crx)|*.crx'
         dlg = wx.FileDialog(self.frame, 'Open', os.path.dirname(Presenter.path),
-                            '', exts, wx.OPEN | wx.CHANGE_DIR)
+                            '', exts, wx.FD_OPEN | wx.FD_CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             if self.testWin.IsShown(): self.testWin.Destroy()
             # Clear old undo data
@@ -715,7 +715,7 @@ Homepage: http://xrced.sourceforge.net\
         self.inUpdateUI = True
         container = Presenter.container
         comp = Presenter.comp
-        treeNode = self.tree.GetPyData(Presenter.item)
+        treeNode = self.tree.GetItemData(Presenter.item)
         isComment = treeNode and treeNode.nodeType == treeNode.COMMENT_NODE
         # Wokraround for wxMSW: view.tree.GetPrevSibling crashes
         if evt.GetId() in [self.frame.ID_MOVEUP, self.frame.ID_MOVERIGHT,
@@ -790,7 +790,7 @@ Homepage: http://xrced.sourceforge.net\
         evt.Skip()
 
     def OnSubclass(self, evt):
-        node = self.tree.GetPyData(Presenter.item)
+        node = self.tree.GetItemData(Presenter.item)
         subclass = node.getAttribute('subclass')
         dlg = wx.TextEntryDialog(self.frame, 'Subclass:', defaultValue=subclass)
         if dlg.ShowModal() == wx.ID_OK:
