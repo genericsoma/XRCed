@@ -55,8 +55,8 @@ def create_tools():
                                  style=wx.CAPTION|wx.CLOSE_BOX|wx.RESIZE_BORDER)
                                      # This causes hiding on KDE
                                      # |wx.FRAME_TOOL_WINDOW)
-        if wx.Platform != '__WXMAC__':
-            toolFrame.SetIcons(frame.icns)
+        #!!if wx.Platform != '__WXMAC__':
+        #    toolFrame.SetIcons(frame.icns)
         g.toolPanel = toolFrame.panel = ToolPanel(toolFrame)
         if toolFrame.panel.panels:
             toolFrame.SetTitle(toolFrame.panel.panels[0].name)
@@ -75,9 +75,9 @@ class Frame(wx.Frame):
         wx.Frame.__init__(self, None, -1, 'XRCed', pos, size)
         bar = self.CreateStatusBar(2)
         bar.SetStatusWidths([-1, 40])
-        if wx.Platform != '__WXMAC__':
-            self.icns = wx.IconBundleFromIcon(images.Icon.GetIcon())
-            self.SetIcons(self.icns)
+        #!!if wx.Platform != '__WXMAC__':
+        #    self.icns = wx.IconBundleFromIcon(images.Icon.GetIcon())
+        #    self.SetIcons(self.icns)
 
         self.InitMenuBar()
 
@@ -145,8 +145,8 @@ class Frame(wx.Frame):
                                                style=wx.CAPTION|wx.RESIZE_BORDER)
                                                # This causes hiding on KDE
                                                # |wx.FRAME_TOOL_WINDOW)
-            if wx.Platform != '__WXMAC__':
-                mf.SetIcons(self.icns)
+            #!!if wx.Platform != '__WXMAC__':
+            #    mf.SetIcons(self.icns)
             mf.tb = mf.CreateToolBar(wx.TB_HORIZONTAL | wx.NO_BORDER | wx.TB_FLAT)
 
             # Use bigger icon size on Mac
