@@ -1056,65 +1056,196 @@ class StylePanel(wx.Panel):
 
 #############################################################################
 
-class CheckListBoxComboPopup(wx.CheckListBox, wx.ComboPopup):
+#!! See https://docs.wxpython.org/wx.ComboCtrl.html
+#class CheckListBoxComboPopup(wx.CheckListBox, wx.combo.ComboPopup):
+#
+#    def __init__(self, values):
+#        self.values = values
+#        #! updated to eliminate 2-stage create #!! not sure this is right at all
+#        wx.CheckListBox.__init__(self, parent)
+#        #self.PostCreate(wx.PreCheckListBox())
+#
+#        wx.ComboPopup.__init__(self)
+#
+#    def Create(self, parent):
+#        wx.CheckListBox.Create(self, parent)
+#        self.InsertItems(self.values, 0)
+#        # Workaround for mac/windows - see ticket #14282  #!!! Add this into fix below?
+#        if wx.Platform in ['__WXMAC__', '__WXMSW__']:
+#            self.Bind(wx.EVT_MOTION, self.OnMotion)
+#            self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
+#        return True
+#
+#    def GetControl(self):
+#        return self
+#
+#    def OnPopup(self):
+#        combo = self.GetCombo()
+#        value = map(string.strip, combo.GetValue().split('|'))
+#        if value == ['']: value = []
+#        self.ignored = []
+#        for i in value:
+#            try:
+#                self.Check(self.values.index(i))
+#            except ValueError:
+#                # Try to find equal
+#                if self.equal.has_key(i):
+#                    self.Check(self.values.index(self.equal[i]))
+#                else:
+#                    logger.warning('unknown flag: %s: ignored.', i)
+#                    self.ignored.append(i)
+#
+#        wx.ComboPopup.OnPopup(self)
+#
+#    def OnDismiss(self):
+#        combo = self.GetCombo()
+#        value = []
+#        for i in range(self.GetCount()):
+#            if self.IsChecked(i):
+#                value.append(self.values[i])
+#        # Add ignored flags
+#        value.extend(self.ignored)
+#        strValue = '|'.join(value)
+#        if combo.GetValue() != strValue:
+#            combo.SetValue(strValue)
+#            Presenter.setApplied(False)
+#
+#        wx.ComboPopup.OnDismiss(self)
+#
+#    if wx.Platform in ['__WXMAC__', '__WXMSW__']:  #!!! Add this into fix below?
+#        def OnMotion(self, evt):
+#            item  = self.HitTest(evt.GetPosition())
+#            if item >= 0:
+#                self.Select(item)
+#                self.curitem = item
+#
+#        def OnLeftDown(self, evt):
+#            self.value = self.curitem
+#            self.Check(self.value, not self.IsChecked(self.value))
+
+################# TEMPORARY REPLACEMENT FOR ABOVE ###########################
+class CheckListBoxComboPopup(wx.ComboPopup):
 
     def __init__(self, values):
-        self.values = values
-        self.PostCreate(wx.PreCheckListBox())
         wx.ComboPopup.__init__(self)
+        self.clbc = None
+        self.values = values
 
+#    def AddItem(self, txt):
+#        self.lc.InsertItem(self.lc.GetItemCount(), txt)
+#
+#    def OnMotion(self, evt):
+#        item, flags = self.lc.HitTest(evt.GetPosition())
+#        if item >= 0:
+#            self.lc.Select(item)
+#            self.curitem = item
+#
+#    def OnLeftDown(self, evt):
+#        self.value = self.curitem
+#        self.Dismiss()
+
+    # The following methods are those that are overridable from the
+    # ComboPopup base class.  Most of them are not required, but all
+    # are shown here for demonstration purposes.
+
+    # This is called immediately after construction finishes.  You can
+    # use self.GetCombo if needed to get to the ComboCtrl instance.
+    def Init(self):
+        self.value = -1
+        self.curitem = -1
+
+    # Create the popup child control.  Return true for success.
     def Create(self, parent):
-        wx.CheckListBox.Create(self, parent)
-        self.InsertItems(self.values, 0)
-        # Workaround for mac/windows - see ticket #14282
-        if wx.Platform in ['__WXMAC__', '__WXMSW__']:
-            self.Bind(wx.EVT_MOTION, self.OnMotion)
-            self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
+        self.clbc = wx.CheckListBox(parent)
+        self.clbc.InsertItems(self.values, 0)
+        #!! need to hook up events for checklistbox? this example was for a list control
+        #!self.lc.Bind(wx.EVT_MOTION, self.OnMotion)
+        #!self.lc.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
         return True
 
+    # Return the widget that is to be used for the popup
     def GetControl(self):
-        return self
+        return self.clbc
 
+    # Called just prior to displaying the popup, you can use it to
+    # 'select' the current item.
+    def SetStringValue(self, val):
+        #!!idx = self.lc.FindItem(-1, val)
+        #if idx != wx.NOT_FOUND:
+        #    self.lc.Select(idx)
+        pass
+
+    # Return a string representation of the current item.
+    def GetStringValue(self):
+        #!!if self.value >= 0:
+        #    return self.lc.GetItemText(self.value)
+        return ""
+
+    # Called immediately after the popup is shown
     def OnPopup(self):
-        combo = self.GetCombo()
-        value = map(string.strip, combo.GetValue().split('|'))
-        if value == ['']: value = []
-        self.ignored = []
-        for i in value:
-            try:
-                self.Check(self.values.index(i))
-            except ValueError:
-                # Try to find equal
-                if self.equal.has_key(i):
-                    self.Check(self.values.index(self.equal[i]))
-                else:
-                    logger.warning('unknown flag: %s: ignored.', i)
-                    self.ignored.append(i)
+        #!! get strings from somewhere
+        #combo = self.GetCombo()
+        #value = map(string.strip, combo.GetValue().split('|'))
+        #if value == ['']: value = []
+        #self.ignored = []
+        #for i in value:
+        #    try:
+        #        self.Check(self.values.index(i))
+        #    except ValueError:
+        #        # Try to find equal
+        #        if self.equal.has_key(i):
+        #            self.Check(self.values.index(self.equal[i]))
+        #        else:
+        #            logger.warning('unknown flag: %s: ignored.', i)
+        #            self.ignored.append(i)
 
         wx.ComboPopup.OnPopup(self)
 
+    # Called when popup is dismissed
     def OnDismiss(self):
-        combo = self.GetCombo()
-        value = []
-        for i in range(self.GetCount()):
-            if self.IsChecked(i):
-                value.append(self.values[i])
-        # Add ignored flags
-        value.extend(self.ignored)
-        strValue = '|'.join(value)
-        if combo.GetValue() != strValue:
-            combo.SetValue(strValue)
-            Presenter.setApplied(False)
+        #!! save data somewhere
+        #combo = self.GetCombo()
+        #value = []
+        #for i in range(self.GetCount()):
+        #    if self.IsChecked(i):
+        #        value.append(self.values[i])
+        ## Add ignored flags
+        #value.extend(self.ignored)
+        #strValue = '|'.join(value)
+        #if combo.GetValue() != strValue:
+        #    combo.SetValue(strValue)
+        #    Presenter.setApplied(False)
 
         wx.ComboPopup.OnDismiss(self)
 
-    if wx.Platform in ['__WXMAC__', '__WXMSW__']:
-        def OnMotion(self, evt):
-            item  = self.HitTest(evt.GetPosition())
-            if item >= 0:
-                self.Select(item)
-                self.curitem = item
+    # This is called to custom paint in the combo control itself
+    # (ie. not the popup).  Default implementation draws value as
+    # string.
+    #def PaintComboControl(self, dc, rect):
+    #    wx.ComboPopup.PaintComboControl(self, dc, rect)
 
-        def OnLeftDown(self, evt):
-            self.value = self.curitem
-            self.Check(self.value, not self.IsChecked(self.value))
+    # Receives key events from the parent ComboCtrl.  Events not
+    # handled should be skipped, as usual.
+    #def OnComboKeyEvent(self, event):
+    #    wx.ComboPopup.OnComboKeyEvent(self, event)
+
+    # Implement if you need to support special action when user
+    # double-clicks on the parent wxComboCtrl.
+    #def OnComboDoubleClick(self):
+    #    wx.ComboPopup.OnComboDoubleClick(self)
+
+    # Return final size of popup. Called on every popup, just prior to OnPopup.
+    # minWidth = preferred minimum width for window
+    # prefHeight = preferred height. Only applies if > 0,
+    # maxHeight = max height for window, as limited by screen size
+    #   and should only be rounded down, if necessary.
+    #def GetAdjustedSize(self, minWidth, prefHeight, maxHeight):
+    #    return wx.ComboPopup.GetAdjustedSize(self, minWidth, prefHeight, maxHeight)
+
+    # Return true if you want delay the call to Create until the popup
+    # is shown for the first time. It is more efficient, but note that
+    # it is often more convenient to have the control created
+    # immediately.
+    # Default returns false.
+    #def LazyCreate(self):
+    #    return wx.ComboPopup.LazyCreate(self)
