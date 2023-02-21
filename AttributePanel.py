@@ -52,9 +52,9 @@ class ToggleButton(buttons.GenBitmapToggleButton):
             if myDef and parDef:
                 if wx.Platform == "__WXMAC__":
                     brush.MacSetTheme(1) # 1 == kThemeBrushDialogBackgroundActive
-                elif wx.Platform == "__WXMSW__":
-                    if self.DoEraseBackground(dc):
-                        brush = None
+                #!elif wx.Platform == "__WXMSW__":
+                #    if self.DoEraseBackground(dc):
+                #        brush = None
             elif myDef and not parDef:
                 colBg = self.GetParent().GetBackgroundColour()
                 brush = wx.Brush(colBg, wx.SOLID)
