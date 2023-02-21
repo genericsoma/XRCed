@@ -712,7 +712,7 @@ class _ComponentManager:
         '''Set pulldown menu data.'''
         if menu not in self.menuNames: self.menuNames.append(menu)
         if menu not in self.menus: self.menus[menu] = []
-        bisect.insort_left(self.menus[menu], (index, component, label, help))
+        bisect.insort_left(self.menus[menu], (index, component, label, help), key=lambda r: r[0])
 
     def getPanelData(self, panel):
         return self.panels.get(panel, None)
@@ -734,7 +734,7 @@ class _ComponentManager:
                 bitmap.GetWidth() * g.conf.toolIconScale // 100,
                 bitmap.GetHeight() * g.conf.toolIconScale // 100)
             bitmap = im.ConvertToBitmap()
-        bisect.insort_left(self.panels[panel], (pos, span, component, bitmap))
+        bisect.insort_left(self.panels[panel], (pos, span, component, bitmap), key=lambda r: (r[0][0] * 100) + r[0][1])
 
     def addXmlHandler(self, h):
         '''

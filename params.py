@@ -1056,12 +1056,12 @@ class StylePanel(wx.Panel):
 
 #############################################################################
 
-class CheckListBoxComboPopup(wx.CheckListBox, wx.combo.ComboPopup):
+class CheckListBoxComboPopup(wx.CheckListBox, wx.ComboPopup):
 
     def __init__(self, values):
         self.values = values
         self.PostCreate(wx.PreCheckListBox())
-        wx..ComboPopup.__init__(self)
+        wx.ComboPopup.__init__(self)
 
     def Create(self, parent):
         wx.CheckListBox.Create(self, parent)
