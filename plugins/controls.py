@@ -4,8 +4,8 @@
 # Created:      31.05.2007
 # RCS-ID:       $Id: core.py 47823 2007-07-29 19:24:35Z ROL $
 
-from wx.tools.XRCed import component, images, attribute, params
-from wx.tools.XRCed.globals import TRACE
+from XRCed import component, images, attribute, params
+from XRCed.globals import TRACE
 import _bitmaps as bitmaps
 
 TRACE('*** creating control components')
@@ -102,7 +102,7 @@ component.Manager.setTool(c, 'Controls', pos=(3,2))
 ### wxSlider
 
 c = component.Component('wxSlider', ['control','tool'],
-              ['pos', 'size', 'value', 'min', 'max', 
+              ['pos', 'size', 'value', 'min', 'max',
                'tickfreq', 'pagesize', 'linesize', 'thumb', 'tick',
                'selmin', 'selmax'],
               image=images.TreeSlider.GetImage())
@@ -122,7 +122,7 @@ c.addEvents('EVT_SCROLL', 'EVT_SCROLL_TOP', 'EVT_SCROLL_BOTTOM',
             'EVT_SCROLL_LINEUP', 'EVT_SCROLL_LINEDOWN', 'EVT_SCROLL_PAGEUP',
             'EVT_SCROLL_PAGEDOWN', 'EVT_SCROLL_THUMBTRACK', 'EVT_SCROLL_THUMBRELEASE',
             'EVT_SCROLL_CHANGED', 'EVT_SCROLL', 'EVT_SCROLL_TOP',
-            'EVT_SCROLL_BOTTOM', 'EVT_SCROLL_LINEUP', 
+            'EVT_SCROLL_BOTTOM', 'EVT_SCROLL_LINEUP',
             'EVT_SCROLL_LINEDOWN', 'EVT_SCROLL_PAGEUP',
             'EVT_SCROLL_PAGEDOWN', 'EVT_SCROLL_THUMBTRACK',
             'EVT_SCROLL_THUMBRELEASE', 'EVT_SCROLL_CHANGED')
@@ -169,7 +169,7 @@ c.addEvents('EVT_SCROLL', 'EVT_SCROLL_TOP', 'EVT_SCROLL_BOTTOM',
             'EVT_SCROLL_LINEUP', 'EVT_SCROLL_LINEDOWN', 'EVT_SCROLL_PAGEUP',
             'EVT_SCROLL_PAGEDOWN', 'EVT_SCROLL_THUMBTRACK', 'EVT_SCROLL_THUMBRELEASE',
             'EVT_SCROLL_CHANGED', 'EVT_SCROLL', 'EVT_SCROLL_TOP',
-            'EVT_SCROLL_BOTTOM', 'EVT_SCROLL_LINEUP', 
+            'EVT_SCROLL_BOTTOM', 'EVT_SCROLL_LINEUP',
             'EVT_SCROLL_LINEDOWN', 'EVT_SCROLL_PAGEUP',
             'EVT_SCROLL_PAGEDOWN', 'EVT_SCROLL_THUMBTRACK',
             'EVT_SCROLL_THUMBRELEASE', 'EVT_SCROLL_CHANGED')
@@ -187,24 +187,24 @@ c.addStyles('wxLC_LIST', 'wxLC_REPORT', 'wxLC_ICON', 'wxLC_SMALL_ICON',
             'wxLC_SINGLE_SEL', 'wxLC_SORT_ASCENDING', 'wxLC_SORT_DESCENDING',
             'wxLC_VIRTUAL', 'wxLC_HRULES', 'wxLC_VRULES', 'wxLC_NO_SORT_HEADER')
 c.addEvents('EVT_LIST_BEGIN_DRAG',
-            'EVT_LIST_BEGIN_RDRAG', 
-            'EVT_LIST_BEGIN_LABEL_EDIT', 
-            'EVT_LIST_END_LABEL_EDIT', 
-            'EVT_LIST_DELETE_ITEM', 
-            'EVT_LIST_DELETE_ALL_ITEMS', 
-            'EVT_LIST_ITEM_SELECTED', 
-            'EVT_LIST_ITEM_DESELECTED', 
-            'EVT_LIST_KEY_DOWN', 
-            'EVT_LIST_INSERT_ITEM', 
-            'EVT_LIST_COL_CLICK', 
-            'EVT_LIST_ITEM_RIGHT_CLICK', 
-            'EVT_LIST_ITEM_MIDDLE_CLICK', 
-            'EVT_LIST_ITEM_ACTIVATED', 
-            'EVT_LIST_CACHE_HINT', 
-            'EVT_LIST_COL_RIGHT_CLICK', 
-            'EVT_LIST_COL_BEGIN_DRAG', 
-            'EVT_LIST_COL_DRAGGING', 
-            'EVT_LIST_COL_END_DRAG', 
+            'EVT_LIST_BEGIN_RDRAG',
+            'EVT_LIST_BEGIN_LABEL_EDIT',
+            'EVT_LIST_END_LABEL_EDIT',
+            'EVT_LIST_DELETE_ITEM',
+            'EVT_LIST_DELETE_ALL_ITEMS',
+            'EVT_LIST_ITEM_SELECTED',
+            'EVT_LIST_ITEM_DESELECTED',
+            'EVT_LIST_KEY_DOWN',
+            'EVT_LIST_INSERT_ITEM',
+            'EVT_LIST_COL_CLICK',
+            'EVT_LIST_ITEM_RIGHT_CLICK',
+            'EVT_LIST_ITEM_MIDDLE_CLICK',
+            'EVT_LIST_ITEM_ACTIVATED',
+            'EVT_LIST_CACHE_HINT',
+            'EVT_LIST_COL_RIGHT_CLICK',
+            'EVT_LIST_COL_BEGIN_DRAG',
+            'EVT_LIST_COL_DRAGGING',
+            'EVT_LIST_COL_END_DRAG',
             'EVT_LIST_ITEM_FOCUSED')
 component.Manager.register(c)
 component.Manager.setMenu(c, 'control', 'list ctrl', 'wxListCtrl', 100)
@@ -228,26 +228,26 @@ c.addStyles('wxTR_EDIT_LABELS',
             'wxTR_MULTIPLE',
             'wxTR_EXTENDED',
             'wxTR_DEFAULT_STYLE')
-c.addEvents('EVT_TREE_BEGIN_DRAG', 
-            'EVT_TREE_BEGIN_RDRAG', 
-            'EVT_TREE_BEGIN_LABEL_EDIT', 
-            'EVT_TREE_END_LABEL_EDIT', 
-            'EVT_TREE_DELETE_ITEM', 
-            'EVT_TREE_GET_INFO', 
-            'EVT_TREE_SET_INFO', 
-            'EVT_TREE_ITEM_EXPANDED', 
-            'EVT_TREE_ITEM_EXPANDING', 
-            'EVT_TREE_ITEM_COLLAPSED', 
-            'EVT_TREE_ITEM_COLLAPSING', 
-            'EVT_TREE_SEL_CHANGED', 
-            'EVT_TREE_SEL_CHANGING', 
-            'EVT_TREE_KEY_DOWN', 
-            'EVT_TREE_ITEM_ACTIVATED', 
-            'EVT_TREE_ITEM_RIGHT_CLICK', 
-            'EVT_TREE_ITEM_MIDDLE_CLICK', 
-            'EVT_TREE_END_DRAG', 
-            'EVT_TREE_STATE_IMAGE_CLICK', 
-            'EVT_TREE_ITEM_GETTOOLTIP', 
+c.addEvents('EVT_TREE_BEGIN_DRAG',
+            'EVT_TREE_BEGIN_RDRAG',
+            'EVT_TREE_BEGIN_LABEL_EDIT',
+            'EVT_TREE_END_LABEL_EDIT',
+            'EVT_TREE_DELETE_ITEM',
+            'EVT_TREE_GET_INFO',
+            'EVT_TREE_SET_INFO',
+            'EVT_TREE_ITEM_EXPANDED',
+            'EVT_TREE_ITEM_EXPANDING',
+            'EVT_TREE_ITEM_COLLAPSED',
+            'EVT_TREE_ITEM_COLLAPSING',
+            'EVT_TREE_SEL_CHANGED',
+            'EVT_TREE_SEL_CHANGING',
+            'EVT_TREE_KEY_DOWN',
+            'EVT_TREE_ITEM_ACTIVATED',
+            'EVT_TREE_ITEM_RIGHT_CLICK',
+            'EVT_TREE_ITEM_MIDDLE_CLICK',
+            'EVT_TREE_END_DRAG',
+            'EVT_TREE_STATE_IMAGE_CLICK',
+            'EVT_TREE_ITEM_GETTOOLTIP',
             'EVT_TREE_ITEM_MENU')
 component.Manager.register(c)
 component.Manager.setMenu(c, 'control', 'tree ctrl', 'wxTreeCtrl', 110)
@@ -344,22 +344,22 @@ component.Manager.setMenu(c, 'control', 'animation ctrl', 'wxAnimationCtrl', 182
 ### wxGrid
 
 c = component.Component('wxGrid', ['control'], ['pos', 'size'])
-c.addEvents('EVT_GRID_CELL_LEFT_CLICK', 
-            'EVT_GRID_CELL_RIGHT_CLICK', 
-            'EVT_GRID_CELL_LEFT_DCLICK', 
-            'EVT_GRID_CELL_RIGHT_DCLICK', 
-            'EVT_GRID_LABEL_LEFT_CLICK', 
-            'EVT_GRID_LABEL_RIGHT_CLICK', 
-            'EVT_GRID_LABEL_LEFT_DCLICK', 
-            'EVT_GRID_LABEL_RIGHT_DCLICK', 
-            'EVT_GRID_ROW_SIZE', 
-            'EVT_GRID_COL_SIZE', 
-            'EVT_GRID_RANGE_SELECT', 
-            'EVT_GRID_CELL_CHANGE', 
-            'EVT_GRID_SELECT_CELL', 
-            'EVT_GRID_EDITOR_SHOWN', 
-            'EVT_GRID_EDITOR_HIDDEN', 
-            'EVT_GRID_EDITOR_CREATED', 
+c.addEvents('EVT_GRID_CELL_LEFT_CLICK',
+            'EVT_GRID_CELL_RIGHT_CLICK',
+            'EVT_GRID_CELL_LEFT_DCLICK',
+            'EVT_GRID_CELL_RIGHT_DCLICK',
+            'EVT_GRID_LABEL_LEFT_CLICK',
+            'EVT_GRID_LABEL_RIGHT_CLICK',
+            'EVT_GRID_LABEL_LEFT_DCLICK',
+            'EVT_GRID_LABEL_RIGHT_DCLICK',
+            'EVT_GRID_ROW_SIZE',
+            'EVT_GRID_COL_SIZE',
+            'EVT_GRID_RANGE_SELECT',
+            'EVT_GRID_CELL_CHANGE',
+            'EVT_GRID_SELECT_CELL',
+            'EVT_GRID_EDITOR_SHOWN',
+            'EVT_GRID_EDITOR_HIDDEN',
+            'EVT_GRID_EDITOR_CREATED',
             'EVT_GRID_CELL_BEGIN_DRAG')
 component.Manager.register(c)
 component.Manager.setMenu(c, 'control', 'grid', 'wxGrid', 190)
@@ -395,7 +395,7 @@ component.Manager.setTool(c, 'Controls', pos=(0,1))
 ### wxBitmapButton
 
 c = component.Component('wxBitmapButton', ['control', 'tool'],
-              ['pos', 'size', 'default', 
+              ['pos', 'size', 'default',
                'bitmap', 'selected', 'focus', 'disabled', 'hover'],
               image=images.TreeBitmapButton.GetImage())
 c.addStyles('wxBU_AUTODRAW', 'wxBU_LEFT', 'wxBU_RIGHT', 'wxBU_TOP', 'wxBU_BOTTOM',
@@ -417,7 +417,7 @@ component.Manager.setTool(c, 'Controls', pos=(1,1))
 
 ### wxRadioButton
 
-c = component.Component('wxRadioButton', ['control', 'tool'], 
+c = component.Component('wxRadioButton', ['control', 'tool'],
                         ['pos', 'size', 'label', 'value'],
                         image=images.TreeRadioButton.GetImage())
 c.addStyles('wxRB_GROUP', 'wxRB_SINGLE')
@@ -503,7 +503,7 @@ component.Manager.setMenu(c, 'box', 'owner-drawn combo box', 'wxOwnerDrawnComboB
 ### wxRadioBox
 
 c = component.Component('wxRadioBox', ['control','tool'],
-              ['pos', 'size', 'label', 'dimension', 
+              ['pos', 'size', 'label', 'dimension',
                'content', 'selection', 'dimension'])
 c.addStyles('wxRA_SPECIFY_ROWS', 'wxRA_SPECIFY_COLS', 'wxRA_HORIZONTAL',
             'wxRA_VERTICAL')

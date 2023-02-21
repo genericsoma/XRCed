@@ -9,7 +9,7 @@ import wx.xrc as xrc
 import wx.lib.foldpanelbar as fpb
 from wx.lib.ticker_xrc import wxTickerXmlHandler
 
-from wx.tools.XRCed.globals import TRACE
+from XRCed.globals import TRACE
 
 class FoldPanelBarXmlHandler(xrc.XmlResourceHandler):
     def __init__(self):
@@ -23,7 +23,7 @@ class FoldPanelBarXmlHandler(xrc.XmlResourceHandler):
         self.AddStyle('FPB_HORIZONTAL', fpb.FPB_HORIZONTAL)
         self.AddStyle('FPB_VERTICAL', fpb.FPB_VERTICAL)
         self._isInside = False
-        
+
     def CanHandle(self,node):
         return not self._isInside and self.IsOfClass(node, 'wx.lib.foldpanelbar.FoldPanelBar') or \
                self._isInside and self.IsOfClass(node, 'foldpanel')

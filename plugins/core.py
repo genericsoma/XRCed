@@ -5,8 +5,8 @@
 # RCS-ID:       $Id$
 
 import wx
-from wx.tools.XRCed import component, images, attribute, params, view
-from wx.tools.XRCed.globals import TRACE,is_object,is_element,STD_NAME
+from XRCed import component, images, attribute, params, view
+from XRCed.globals import TRACE,is_object,is_element,STD_NAME
 import _bitmaps as bitmaps
 
 TRACE('*** creating core components')
@@ -34,11 +34,11 @@ class Frame(component.Container):
                 elif i < index: indexOffset += 1
         return component.Container.getChildObject(self, node, obj, index - indexOffset)
 
-c = Frame('wxFrame', ['frame','window','top_level'], 
+c = Frame('wxFrame', ['frame','window','top_level'],
               ['pos', 'size', 'title', 'centered'],
               image=images.TreeFrame.GetImage())
 c.isTopLevel = True
-c.addStyles('wxDEFAULT_FRAME_STYLE', 'wxDEFAULT_DIALOG_STYLE', 'wxCAPTION', 
+c.addStyles('wxDEFAULT_FRAME_STYLE', 'wxDEFAULT_DIALOG_STYLE', 'wxCAPTION',
             'wxSTAY_ON_TOP', 'wxSYSTEM_MENU',
             'wxRESIZE_BORDER', 'wxCLOSE_BOX',
             'wxMAXIMIZE_BOX', 'wxMINIMIZE_BOX',
@@ -68,11 +68,11 @@ class MDIParentFrame(component.Container):
                 elif i < index: indexOffset += 1
         return obj.GetClientWindow().GetChildren()[index]
 
-c = MDIParentFrame('wxMDIParentFrame', ['mdi_parent_frame','top_level'], 
+c = MDIParentFrame('wxMDIParentFrame', ['mdi_parent_frame','top_level'],
               ['pos', 'size', 'title', 'centered'],
               image=images.TreeFrame.GetImage())
 c.isTopLevel = True
-c.addStyles('wxDEFAULT_FRAME_STYLE', 'wxDEFAULT_DIALOG_STYLE', 'wxCAPTION', 
+c.addStyles('wxDEFAULT_FRAME_STYLE', 'wxDEFAULT_DIALOG_STYLE', 'wxCAPTION',
             'wxSTAY_ON_TOP', 'wxSYSTEM_MENU',
             'wxRESIZE_BORDER', 'wxCLOSE_BOX',
             'wxMAXIMIZE_BOX', 'wxMINIMIZE_BOX',
@@ -102,10 +102,10 @@ class MDIChildFrame(component.Container):
                 elif i < index: indexOffset += 1
         return component.Container.getChildObject(self, node, obj, index - indexOffset)
 
-c = MDIChildFrame('wxMDIChildFrame', ['mdi_child_frame','window'], 
+c = MDIChildFrame('wxMDIChildFrame', ['mdi_child_frame','window'],
               ['pos', 'size', 'title', 'centered'],
               image=images.TreeFrame.GetImage())
-c.addStyles('wxDEFAULT_FRAME_STYLE', 'wxDEFAULT_DIALOG_STYLE', 'wxCAPTION', 
+c.addStyles('wxDEFAULT_FRAME_STYLE', 'wxDEFAULT_DIALOG_STYLE', 'wxCAPTION',
             'wxSTAY_ON_TOP', 'wxSYSTEM_MENU',
             'wxRESIZE_BORDER', 'wxCLOSE_BOX',
             'wxMAXIMIZE_BOX', 'wxMINIMIZE_BOX',
@@ -121,19 +121,19 @@ component.Manager.setMenu(c, 'container', 'MDI child frame', 'wxMDIChildFrame', 
 
 ### wxDialog
 
-c = component.Container('wxDialog', ['frame','window','top_level'], 
+c = component.Container('wxDialog', ['frame','window','top_level'],
               ['pos', 'size', 'title', 'centered', 'icon'],
               image=images.TreeDialog.GetImage())
 c.isTopLevel = True
 c.setSpecial('icon', attribute.BitmapAttribute)
-c.addStyles('wxDEFAULT_DIALOG_STYLE', 'wxCAPTION', 
+c.addStyles('wxDEFAULT_DIALOG_STYLE', 'wxCAPTION',
             'wxSTAY_ON_TOP', 'wxSYSTEM_MENU',
             'wxRESIZE_BORDER', 'wxCLOSE_BOX',
             'wxMAXIMIZE_BOX', 'wxMINIMIZE_BOX',
             'wxDIALOG_NO_PARENT', 'wxFRAME_SHAPED',
             'wxTAB_TRAVERSAL')
 c.addExStyles('wxDIALOG_EX_CONTEXTHELP', 'wxDIALOG_EX_METAL')
-c.addEvents('EVT_INIT_DIALOG', 'EVT_SIZE', 'EVT_CLOSE', 
+c.addEvents('EVT_INIT_DIALOG', 'EVT_SIZE', 'EVT_CLOSE',
             'EVT_ICONIZE', 'EVT_MAXIMIZE', 'EVT_ACTIVATE', 'EVT_UPDATE_UI')
 component.Manager.register(c)
 component.Manager.setMenu(c, 'TOP_LEVEL', 'dialog', 'wxDialog', 20)
@@ -141,7 +141,7 @@ component.Manager.setTool(c, 'Windows', bitmaps.wxDialog.GetBitmap(), (0,1))
 
 ### wxPanel
 
-c = component.Container('wxPanel', ['window', 'top_level', 'control'], 
+c = component.Container('wxPanel', ['window', 'top_level', 'control'],
               ['pos', 'size'],
               image=images.TreePanel.GetImage())
 c.addStyles('wxTAB_TRAVERSAL')
@@ -169,7 +169,7 @@ class Wizard(component.Container):
             wx.LogMessage('Wizard is empty')
         wiz.Destroy()
         return None, None
-c = Wizard('wxWizard', ['wizard', 'top_level'], 
+c = Wizard('wxWizard', ['wizard', 'top_level'],
            ['pos', 'title', 'bitmap'],
            image=images.TreeWizard.GetImage())
 c.addExStyles('wxWIZARD_EX_HELPBUTTON')
@@ -213,11 +213,11 @@ component.Manager.setMenu(c, 'container', 'simple wizard page', 'wxWizardPageSim
 class ParamButtons(params.ParamBinaryOr):
     '''Button flags.'''
     values = ['wxOK', 'wxCANCEL', 'wxYES', 'wxNO', 'wxHELP', 'wxNO_DEFAULT']
-c = component.SmartContainer('wxPropertySheetDialog', ['frame','book','window','top_level'], 
+c = component.SmartContainer('wxPropertySheetDialog', ['frame','book','window','top_level'],
                    ['pos', 'size', 'title', 'centered', 'icon', 'buttons'],
                    params={'buttons': ParamButtons},
-                   implicit_klass='propertysheetpage', 
-                   implicit_page='PropertySheetPage', 
+                   implicit_klass='propertysheetpage',
+                   implicit_page='PropertySheetPage',
                    implicit_attributes=['label', 'selected', 'bitmap'],
                    implicit_params={'label': params.ParamText, 'selected': params.ParamBool},
                    image=images.TreeDialog.GetImage())
@@ -225,12 +225,12 @@ c.isTopLevel = True
 c.setSpecial('bitmap', attribute.BitmapAttribute)
 c.setSpecial('icon', attribute.BitmapAttribute)
 c.addStyles('wxDEFAULT_DIALOG_STYLE', 'wxCAPTION', 'wxFRAME_SHAPED',
-            'wxTAB_TRAVERSAL', 'wxSTAY_ON_TOP', 'wxSYSTEM_MENU', 
+            'wxTAB_TRAVERSAL', 'wxSTAY_ON_TOP', 'wxSYSTEM_MENU',
             'wxRESIZE_BORDER', 'wxCLOSE_BOX', 'wxMAXIMIZE_BOX', 'wxMINIMIZE_BOX',
             'wxDIALOG_MODAL', 'wxDIALOG_MODELESS', 'wxDIALOG_NO_PARENT',
             'wxTAB_TRAVERSAL')
 c.addExStyles('wxDIALOG_EX_CONTEXTHELP', 'wxDIALOG_EX_METAL')
-c.addEvents('EVT_INIT_DIALOG', 'EVT_SIZE', 'EVT_CLOSE', 
+c.addEvents('EVT_INIT_DIALOG', 'EVT_SIZE', 'EVT_CLOSE',
             'EVT_ICONIZE', 'EVT_MAXIMIZE', 'EVT_ACTIVATE', 'EVT_UPDATE_UI')
 component.Manager.register(c)
 component.Manager.setMenu(c, 'TOP_LEVEL', 'propery sheet dialog', 'wxPropertySheetDialog', 50)
@@ -238,7 +238,7 @@ component.Manager.setTool(c, 'Windows', bitmaps.wxPropertySheetDialog.GetBitmap(
 
 ### wxBoxSizer
 
-c = component.BoxSizer('wxBoxSizer', ['sizer'], ['orient'], 
+c = component.BoxSizer('wxBoxSizer', ['sizer'], ['orient'],
              defaults={'orient': 'wxVERTICAL'},
              images=[images.TreeSizerV.GetImage(), images.TreeSizerH.GetImage()])
 component.Manager.register(c)
@@ -247,7 +247,7 @@ component.Manager.setTool(c, 'Sizers', pos=(0,0))
 
 ### wxStaticBoxSizer
 
-c = component.BoxSizer('wxStaticBoxSizer', ['sizer'], ['label', 'orient'], 
+c = component.BoxSizer('wxStaticBoxSizer', ['sizer'], ['label', 'orient'],
              defaults={'orient': 'wxVERTICAL'},
              images=[images.TreeSizerV.GetImage(), images.TreeSizerH.GetImage()])
 component.Manager.register(c)
@@ -257,7 +257,7 @@ component.Manager.setTool(c, 'Sizers', pos=(0,2))
 ### wxGridSizer
 
 c = component.Sizer('wxGridSizer', ['sizer'],
-          ['cols', 'rows', 'vgap', 'hgap'], 
+          ['cols', 'rows', 'vgap', 'hgap'],
           defaults={'cols': '2', 'rows': '2'},
           image=images.TreeSizerGrid.GetImage())
 component.Manager.register(c)
@@ -312,7 +312,7 @@ class StdDialogButtonSizer(component.Sizer):
             if w.GetName() == id: return w
         return None
 c = StdDialogButtonSizer('wxStdDialogButtonSizer', ['btnsizer'], [],
-          implicit_klass='button', 
+          implicit_klass='button',
           implicit_attributes=[])
 component.Manager.register(c)
 component.Manager.setMenu(c, 'sizer', 'dialog button sizer', 'wxStdDialogButtonSizer', 60)
@@ -353,8 +353,8 @@ component.Manager.setTool(c, 'Panels', pos=(3,0))
 c = component.Container('wxSplitterWindow', ['book', 'window', 'control'],
               ['pos', 'size', 'orientation', 'sashpos', 'minsize', 'gravity'],
               # note: no flt[0..1], so just leaving gravity as text
-              params={'orientation': params.ParamOrientation, 
-                      'sashpos': params.ParamUnit, 
+              params={'orientation': params.ParamOrientation,
+                      'sashpos': params.ParamUnit,
                       'minsize': params.ParamUnit},
               image=images.TreeSplitterWindow.GetImage())
 c.addStyles('wxSP_3D', 'wxSP_3DSASH', 'wxSP_3DBORDER', 'wxSP_BORDER',
@@ -368,9 +368,9 @@ component.Manager.setTool(c, 'Panels', pos=(2,3))
 
 ### wxNotebook
 
-c = component.SmartContainer('wxNotebook', ['book', 'window', 'control'], ['pos', 'size'], 
-                   implicit_klass='notebookpage', 
-                   implicit_page='NotebookPage', 
+c = component.SmartContainer('wxNotebook', ['book', 'window', 'control'], ['pos', 'size'],
+                   implicit_klass='notebookpage',
+                   implicit_page='NotebookPage',
                    implicit_attributes=['label', 'selected', 'bitmap'],
                    implicit_params={'label': params.ParamText, 'selected': params.ParamBool},
                    image=images.TreeNotebook.GetImage())
@@ -388,8 +388,8 @@ component.Manager.setTool(c, 'Panels', pos=(1,0))
 ### wxChoicebook
 
 c = component.SmartContainer('wxChoicebook', ['book', 'window', 'control'], ['pos', 'size'],
-                   implicit_klass='choicebookpage', 
-                   implicit_page='ChoicebookPage', 
+                   implicit_klass='choicebookpage',
+                   implicit_page='ChoicebookPage',
                    implicit_attributes=['label', 'selected', 'bitmap'],
                    implicit_params={'label': params.ParamText, 'selected': params.ParamBool})
 c.addStyles('wxBK_DEFAULT', 'wxBK_TOP', 'wxBK_LEFT', 'wxBK_RIGHT', 'wxBK_BOTTOM')
@@ -409,8 +409,8 @@ class ListBook(component.SmartContainer):
         # Listbook's first child is ListView
         return obj.GetChildren()[index+1]
 c = ListBook('wxListbook', ['book', 'window', 'control'], ['pos', 'size'],
-             implicit_klass='listbookpage', 
-             implicit_page='ListbookPage', 
+             implicit_klass='listbookpage',
+             implicit_page='ListbookPage',
              implicit_attributes=['label', 'selected', 'bitmap'],
              implicit_params={'label': params.ParamText, 'selected': params.ParamBool})
 c.addStyles('wxBK_DEFAULT', 'wxBK_LEFT', 'wxBK_RIGHT', 'wxBK_TOP', 'wxBK_BOTTOM')
@@ -430,11 +430,11 @@ class TreeBook(component.SmartContainer):
         # Listbook's first child is ListView
         return obj.GetChildren()[index+1]
 c = TreeBook('wxTreebook', ['book', 'window', 'control'], ['pos', 'size'],
-             implicit_klass='treebookpage', 
-             implicit_page='TreebookPage', 
+             implicit_klass='treebookpage',
+             implicit_page='TreebookPage',
              implicit_attributes=['label', 'selected', 'bitmap', 'depth'],
-             implicit_params={'label': params.ParamText, 
-                              'selected': params.ParamBool, 
+             implicit_params={'label': params.ParamText,
+                              'selected': params.ParamBool,
                               'depth': params.ParamInt})
 c.addStyles('wxBK_DEFAULT', 'wxBK_LEFT', 'wxBK_RIGHT', 'wxBK_TOP', 'wxBK_BOTTOM')
 c.setSpecial('bitmap', attribute.BitmapAttribute)
@@ -447,8 +447,8 @@ component.Manager.setTool(c, 'Panels', pos=(1,1), span=(1,2))
 ### wxCollapsiblePane
 
 c = component.SmartContainer('wxCollapsiblePane', ['book', 'window', 'control'], ['pos', 'size', 'label', 'collapsed'],
-                   implicit_klass='panewindow', 
-                   implicit_page='', 
+                   implicit_klass='panewindow',
+                   implicit_page='',
                    implicit_attributes=[])
 c.addStyles('wxCP_NO_TLW_RESIZE', 'wxCP_DEFAULT_STYLE')
 c.setParamClass('collapsed', params.ParamBool)
@@ -482,7 +482,7 @@ component.Manager.setTool(c, 'Menus', pos=(1,0))
 
 ### wxMenu
 
-c = component.SimpleContainer('wxMenu', ['menu', 'top_level'], 
+c = component.SimpleContainer('wxMenu', ['menu', 'top_level'],
                               ['label', 'help', 'enabled'],
                               image=images.TreeMenu.GetImage())
 #c.setSpecial('bitmap', attribute.BitmapAttribute)
