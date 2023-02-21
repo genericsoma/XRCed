@@ -4,10 +4,10 @@
 # Created:      13.07.2007
 # RCS-ID:       $Id: view.py 47356 2007-07-12 01:00:57Z ROL $
 
-from globals import *
+from .globals import *
 import wx
-import view
-from component import Manager
+from . import view
+from .component import Manager
 
 def getAllChildren(w):
     '''Get all children recursively.'''
@@ -27,7 +27,7 @@ class TestWindow:
         self.frame = self.object = None # currenly shown frame and related object
         self.item = None
         self.pos = wx.DefaultPosition
-        self.size = wx.DefaultSize        
+        self.size = wx.DefaultSize
         self.isDirty = False            # if refresh needed
         self.trash = []                 # trash to be destroyed later
 
@@ -79,7 +79,7 @@ class TestWindow:
         self.object.Unbind(wx.EVT_IDLE)
         if self.hl: self.hl.Refresh()
         if self.hlDT: self.hlDT.Refresh()
-                
+
     def GetFrame(self):
         if self.frame: return self.frame
         else: return self.object
@@ -91,8 +91,8 @@ class TestWindow:
         # re-raise the main window so the test window doesn't steal
         # the activation from it.
         if g.lastActiveFrame:
-            g.lastActiveFrame.Raise()   
-        
+            g.lastActiveFrame.Raise()
+
     def IsShown(self):
         return self.object is not None and self.object.IsShown()
 
@@ -180,7 +180,7 @@ class TestWindow:
         # Now traverse back from parents to children
         obj = self.object
         if self.frame:
-            # Maybe GetClientAreaOrigin should not return (0,0) for panels with borders 
+            # Maybe GetClientAreaOrigin should not return (0,0) for panels with borders
             offset = obj.ClientToScreen((0,0)) - self.frame.panel.ClientToScreen((0,0))
         else:
             offset = wx.Point(0,0)
@@ -234,7 +234,7 @@ class TestWindow:
             self.hl = Highlight(self.HLParent(), rect)
         else:
             self.hl.Move(rect)
-            
+
     def HighlightDT(self, rect, item):
         if not self.hlDT:
             self.hlDT = Highlight(self.HLParent(), rect, wx.BLUE, False)
@@ -242,15 +242,15 @@ class TestWindow:
         else:
             self.hlDT.Move(rect)
             view.tree.SetItemTextColour(self.hlDT.item, self.hlDT.origColour)
-        view.tree.SetItemTextColour(item, view.tree.COLOUR_DT)            
+        view.tree.SetItemTextColour(item, view.tree.COLOUR_DT)
         self.hlDT.item = item
-            
+
     def RemoveHighlight(self):
         if self.hl is None: return
         self.hl.Destroy()
         self.EmptyTrash()
         self.hl = None
-        
+
     def RemoveHighlightDT(self):
         if self.hlDT is None: return
         if self.hlDT.item:
@@ -260,7 +260,7 @@ class TestWindow:
         self.hlDT = None
         view.frame.SetStatusText('')
 
-            
+
 ################################################################################
 
 # DragAndDrop

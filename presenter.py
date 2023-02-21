@@ -7,11 +7,11 @@
 import os,tempfile,shutil
 from xml.parsers import expat
 import cPickle
-from globals import *
-import view
-from model import Model, MyDocument
-from component import Manager
-import undo
+from .globals import *
+from . import view
+from .model import Model, MyDocument
+from .component import Manager
+from . import undo
 
 # Presenter class linking model to view objects
 class _Presenter:
@@ -58,7 +58,7 @@ class _Presenter:
             logger.exception('error loading XML file')
             wx.LogError('Error loading XML file: %s' % path)
             raise
-            
+
     def save(self, path):
         # Apply changes if needed
         if not self.applied:
@@ -100,7 +100,7 @@ class _Presenter:
         '''Set panel state.'''
         TRACE('setApplied %s', state)
         self.applied = state
-        if not state and not self.modified: 
+        if not state and not self.modified:
             self.setModified(setDirty=False)  # toggle global state
 
     def createUndoEdit(self, item=None, page=None):
@@ -175,7 +175,7 @@ class _Presenter:
                 self.createSibling = True
         else:
             self.createSibling = False
-        self.insertBefore = forceInsert        
+        self.insertBefore = forceInsert
         TRACE('updateCreateState: %s %s', self.createSibling, self.insertBefore)
 
     def popupMenu(self, forceSibling, forceInsert, pos):
@@ -184,7 +184,7 @@ class _Presenter:
         menu = view.XMLTreeMenu(self.container, self.comp, view.tree,
                                 self.createSibling, self.insertBefore)
         view.tree.PopupMenu(menu, pos)
-        menu.Destroy()        
+        menu.Destroy()
 
     def create(self, comp, child=None):
         '''
@@ -243,7 +243,7 @@ class _Presenter:
         if child is None:
             child = Model.createRefNode(ref)
         refNode = Model.findResource(ref)
-        if refNode: 
+        if refNode:
             comp = Manager.getNodeComp(refNode)
         else:
             comp = Manager.getNodeComp(child)
@@ -291,10 +291,10 @@ class _Presenter:
             node.removeAttribute('subclass')
         # Update item label
         view.tree.SetItemImage(item, self.comp.getTreeImageId(node))
-        view.tree.SetItemText(item, self.comp.getTreeText(node))        
+        view.tree.SetItemText(item, self.comp.getTreeText(node))
         # Update panel
         view.tree.SelectItem(item)
-        self.setModified()        
+        self.setModified()
 
     def update(self, item):
         '''Update DOM with new attribute values. Update tree if necessary.'''
@@ -336,7 +336,7 @@ class _Presenter:
                 node.setAttribute('name', name)
             elif node.hasAttribute('name'): # clean up empty names
                 node.removeAttribute('name')
-        if item != view.tree.root: 
+        if item != view.tree.root:
             for panel in self.panels:
                 if not panel.node: continue
                 # Replace node contents except object children
@@ -438,7 +438,7 @@ class _Presenter:
             wx.TheClipboard.SetData(data)
             wx.TheClipboard.Close()
         else:
-            wx.MessageBox("Unable to open the clipboard", "Error")        
+            wx.MessageBox("Unable to open the clipboard", "Error")
 
     def checkCompatibility(self, comp):
         '''Check parent/child compatibility.'''
@@ -476,7 +476,7 @@ class _Presenter:
             return
 
         # XML representation of element or node value string
-        data = cPickle.loads(data.GetData()) 
+        data = cPickle.loads(data.GetData())
         implicit = None
         if success:
             if type(data) is list:
@@ -496,7 +496,7 @@ class _Presenter:
         item = view.tree.GetSelection()
         if item and not self.applied:
             self.update(item)
-        
+
         item = self.create(comp, node)
         if implicit:   # copy parameters for implicit node if possible
             parentNode = view.tree.GetPyData(view.tree.GetItemParent(item))
@@ -528,7 +528,7 @@ class _Presenter:
         self.item = view.tree.ItemAtFullIndex(index)
         self.setModified()
         view.tree.SelectItem(self.item)
-        
+
     def moveDown(self):
         parentItem = view.tree.GetItemParent(self.item)
         treeNode = view.tree.GetPyData(self.item)
@@ -615,7 +615,7 @@ class _Presenter:
             if node.data and node.data[0] == '%' and g.conf.allowExec != 'no':
                 say = wx.NO
                 if g.conf.allowExec == 'ask' and Model.allowExec is None:
-                    say = wx.MessageBox('Execute comment directive?', 'Warning', 
+                    say = wx.MessageBox('Execute comment directive?', 'Warning',
                                         wx.ICON_EXCLAMATION | wx.YES_NO)
                 if g.conf.allowExec == 'yes' or say == wx.YES:
                     code = node.data[1:] # skip '%'
@@ -663,7 +663,7 @@ class _Presenter:
                 testWin.SetView(frame, object, testWinItem)
                 testWin.Show()
                 view.tree.SetItemBold(testWinItem, True)
-                # For reused frame, object is not positioned immediately 
+                # For reused frame, object is not positioned immediately
                 wx.CallAfter(self.highlight, item)
             except EOFError:
                 pass
@@ -726,7 +726,7 @@ class _Presenter:
             import pywxrc
             #from wx.tools import pywxrc
             rescomp = pywxrc.XmlResourceCompiler()
-            rescomp.MakePythonModule([dataFile], pypath, embed, genGettext, 
+            rescomp.MakePythonModule([dataFile], pypath, embed, genGettext,
                                      assignVariables=False)
         except:
             logger.exception('error generating python code')

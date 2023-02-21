@@ -4,8 +4,8 @@
 # Created:      25.07.2007
 # RCS-ID:       $Id$
 
-from globals import *
-from presenter import Presenter
+from .globals import *
+from .presenter import Presenter
 
 class PythonOptions(wx.Dialog):
 
@@ -40,8 +40,8 @@ class PythonOptions(wx.Dialog):
         self.EmbedCB.SetValue(self.cfg.ReadBool("embedResource", False))
         self.MakeXRSFileCB.SetValue(self.cfg.ReadBool("makeXRS", False))
         self.GettextCB.SetValue(self.cfg.ReadBool("genGettext", False))
-        
-                  
+
+
     def OnBrowse(self, evt):
         path = self.FileNameTC.GetValue()
         dirname = os.path.abspath(os.path.dirname(path))
@@ -52,7 +52,7 @@ class PythonOptions(wx.Dialog):
             path = dlg.GetPath()
             self.FileNameTC.SetValue(path)
         dlg.Destroy()
-    
+
 
     def OnGenerate(self, evt):
         pypath = self.FileNameTC.GetValue()
@@ -61,7 +61,7 @@ class PythonOptions(wx.Dialog):
         Presenter.generatePython(self.dataFile, pypath, embed, genGettext)
         self.OnSaveOpts()
 
-    
+
     def OnSaveOpts(self, evt=None):
         self.cfg.Write("filename", self.FileNameTC.GetValue())
         self.cfg.WriteBool("autogenerate", self.AutoGenerateCB.GetValue())
@@ -70,4 +70,4 @@ class PythonOptions(wx.Dialog):
         self.cfg.WriteBool("genGettext", self.GettextCB.GetValue())
 
         self.EndModal(wx.ID_OK)
-    
+

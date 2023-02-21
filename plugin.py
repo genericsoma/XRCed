@@ -10,10 +10,10 @@ Functions for loading plugins.
 
 import os, sys, glob
 from xml.dom import minidom
-from globals import *
-from presenter import Manager
-import component
-import meta
+from .globals import *
+from .presenter import Manager
+from . import component
+from . import meta
 
 def load_plugins_from_dirs():
     '''Load plugins from XRCEDPATH directories.'''

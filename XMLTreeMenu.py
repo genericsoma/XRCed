@@ -5,8 +5,8 @@
 # RCS-ID:       $Id$
 
 import wx
-from globals import ID
-from component import Manager
+from .globals import ID
+from .component import Manager
 
 class XMLTreeMenu(wx.Menu):
     '''dynamic pulldown menu for XMLTree'''
@@ -49,7 +49,7 @@ class XMLTreeMenu(wx.Menu):
             if comp is not Manager.rootComponent:
                 self.Append(ID.SUBCLASS, 'Sublass...', 'Define subclass')
             self.AppendSeparator()
-            
+
             if container:
                 if container is Manager.rootComponent:
                     menu = self.CreateTopLevelMenu(container, ID.SHIFT)
@@ -58,7 +58,7 @@ class XMLTreeMenu(wx.Menu):
                 self.AppendMenu(ID.REPLACE, 'Replace With', menu,
                                 'Replace selected object by another')
                 self.AppendSeparator()
-                
+
             self.Append(wx.ID_CUT, 'Cut', 'Cut to the clipboard')
             self.Append(wx.ID_COPY, 'Copy', 'Copy to the clipboard')
             if createSibling and item != tree.root:
@@ -80,7 +80,7 @@ class XMLTreeMenu(wx.Menu):
                 m.Append(component.id + idShift, label, help)
         m.AppendSeparator()
         m.Append(ID.REF, 'reference...', 'Create object_ref node')
-        m.Append(ID.COMMENT, 'comment', 'Create comment node')        
+        m.Append(ID.COMMENT, 'comment', 'Create comment node')
         return m
 
     def CreateSubMenus(self, comp, idShift=0):

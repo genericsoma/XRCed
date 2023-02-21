@@ -7,11 +7,11 @@
 import string
 import wx
 import wx.lib.buttons as buttons
-from globals import *
-import params
-import component
-import undo
-import images
+from .globals import *
+from . import params
+from . import component
+from . import undo
+from . import images
 
 
 labelSize = (100,-1)
@@ -137,7 +137,7 @@ class Panel(wx.Panel):
         # after the removes instead.  See
         # https://groups.google.com/d/topic/wxpython-users/I8AJgkUCPj8/discussion
         self.Freeze()
-        
+
         self.container = container
         self.comp = comp
         self.node = node        # main node
@@ -148,7 +148,7 @@ class Panel(wx.Panel):
             self.labelRef.Hide()
             self.textRef.Hide()
             self.labelClass.Hide()
-            self.textClass.Hide()            
+            self.textClass.Hide()
         elif node.tagName == 'object_ref':
             self.labelRef.Show()
             self.textRef.Show()
@@ -204,7 +204,7 @@ class Panel(wx.Panel):
 
         if comp.exStyles or comp.genericExStyles:
             # Create extra style page
-            panel = params.StylePanel(self.pageExStyle, comp.exStyles + comp.genericExStyles, 
+            panel = params.StylePanel(self.pageExStyle, comp.exStyles + comp.genericExStyles,
                                       tag='exstyle', equiv = comp.equivStyles)
             panels.append(panel)
             self.pageExStyle.SetPanel(panel)
@@ -213,8 +213,8 @@ class Panel(wx.Panel):
 
         # Additional panel for hidden node
         if container and container.requireImplicit(node) and container.implicitAttributes:
-            panel = AttributePanel(self.pageIA, 
-                                   container.implicitAttributes, 
+            panel = AttributePanel(self.pageIA,
+                                   container.implicitAttributes,
                                    container.implicitParams,
                                    container.implicitRenameDict)
             panel.comp = container
@@ -242,7 +242,7 @@ class Panel(wx.Panel):
         self.Thaw()
 
         return panels
-        
+
     def Clear(self):
         self.comp = None
         self.nb.SetSelection(0)
@@ -322,7 +322,7 @@ class AttributePanel(wx.Panel):
     def GetValues(self):
         '''Generic method used for creating XML and for other operations.'''
         return [(a,c.GetValue()) for a,c in self.controls]
-        
+
     def SetValues(self, values):
         '''Generic method used for undo.'''
         for ac,a2v in zip(self.controls, values):
@@ -336,7 +336,7 @@ class CodePanel(wx.Panel):
     ID_BUTTON_DEL = wx.NewId()
     ID_COMBO_EVENT = wx.NewId()
     ART_REMOVE = 'ART_REMOVE'
-    
+
     '''Code generation panel.'''
     def __init__(self, parent, events):
         wx.Panel.__init__(self, parent, -1)
@@ -450,4 +450,4 @@ class CodePanel(wx.Panel):
             self.Fit()
             self.SetMinSize(self.GetBestSize())
         g.Presenter.setApplied(False)
-            
+

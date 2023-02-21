@@ -6,13 +6,13 @@
 
 import wx
 import os,sys,shutil,tempfile
-from globals import *
-from presenter import Presenter
-from component import Manager
-from model import Model
-import view
-import undo
-from generate import PythonOptions
+from .globals import *
+from .presenter import Presenter
+from .component import Manager
+from .model import Model
+from . import view
+from . import undo
+from .generate import PythonOptions
 
 class _Listener:
     '''
@@ -34,7 +34,7 @@ class _Listener:
         # Some local members
         self.inUpdateUI = self.inIdle = False
         self.clipboardHasData = False
-        
+
         # Component events
         wx.EVT_MENU_RANGE(frame, Manager.firstId, Manager.lastId,
                           self.OnComponentCreate)
@@ -56,7 +56,7 @@ class _Listener:
             toolFrame.Bind(wx.EVT_ACTIVATE, self.OnFrameActivate)
         if frame.miniFrame:
             frame.miniFrame.Bind(wx.EVT_ACTIVATE, self.OnFrameActivate)
-        
+
         # Menubar events
         # File
         frame.Bind(wx.EVT_MENU, self.OnRecentFile, id=wx.ID_FILE1, id2=wx.ID_FILE9)
@@ -97,7 +97,7 @@ class _Listener:
         wx.EVT_MENU(frame, frame.ID_MOVEUP, self.OnMoveUp)
         wx.EVT_MENU(frame, frame.ID_MOVEDOWN, self.OnMoveDown)
         wx.EVT_MENU(frame, frame.ID_MOVELEFT, self.OnMoveLeft)
-        wx.EVT_MENU(frame, frame.ID_MOVERIGHT, self.OnMoveRight)        
+        wx.EVT_MENU(frame, frame.ID_MOVERIGHT, self.OnMoveRight)
         # Help
         wx.EVT_MENU(frame, wx.ID_ABOUT, self.OnHelpAbout)
         wx.EVT_MENU(frame, wx.ID_HELP_CONTENTS, self.OnHelpContents)
@@ -249,7 +249,7 @@ class _Listener:
         # get the pathname based on the menu ID
         fileNum = evt.GetId() - wx.ID_FILE1
         path = g.fileHistory.GetHistoryFile(fileNum)
-            
+
         wx.BeginBusyCursor()
         try:
             if self.testWin.IsShown(): self.testWin.Destroy()
@@ -307,7 +307,7 @@ class _Listener:
             self.frame.SetStatusText('Data saved')
             self.SaveRecent(path)
         finally:
-            wx.EndBusyCursor()        
+            wx.EndBusyCursor()
 
     def OnPrefs(self, evt):
         self.frame.ShowPrefs()
@@ -315,16 +315,16 @@ class _Listener:
     def OnExit(self, evt):
         '''wx.ID_EXIT handler'''
         self.frame.Close()
-        
+
     def OnGeneratePython(self, evt):
         if Presenter.modified or not g.conf.localconf:
             wx.MessageBox("Save the XRC file first!", "Error")
             return
-        
+
         dlg = PythonOptions(view.frame, g.conf.localconf, Presenter.path)
         dlg.ShowModal()
         dlg.Destroy()
-        
+
     def SaveRecent(self, path):
         '''Append path to recently used files.'''
         g.fileHistory.AddFileToHistory(path)
@@ -352,7 +352,7 @@ class _Listener:
         if not self.AskSave(): return
         if self.testWin.object: self.testWin.Destroy()
         self.panel.undo = False # prevent undo
-        g.undoMan.Clear()        
+        g.undoMan.Clear()
         # Remember sizes and position
         conf = g.conf
         if g.useAUI:
@@ -391,7 +391,7 @@ class _Listener:
         '''wx.ID_CUT handler.'''
         item = self.tree.GetSelection()
         index = self.tree.ItemFullIndex(item)
-        state = self.tree.GetFullState()        
+        state = self.tree.GetFullState()
         node = Presenter.cut()
         g.undoMan.RegisterUndo(undo.UndoCutDelete(index, state, node))
 
@@ -448,7 +448,7 @@ class _Listener:
         item = Presenter.paste()
         if not item: return     # error in paste()
         itemIndex = self.tree.ItemFullIndex(item)
-        g.undoMan.RegisterUndo(undo.UndoPasteCreate(itemIndex, treeState)) 
+        g.undoMan.RegisterUndo(undo.UndoPasteCreate(itemIndex, treeState))
 
     def OnPasteSibling(self, evt):
         '''ID.PASTE_SIBLING handler.'''
@@ -474,19 +474,19 @@ class _Listener:
 
     def OnMoveDown(self, evt):
         self.inIdle = True
-        g.undoMan.RegisterUndo(undo.UndoGlobal()) 
+        g.undoMan.RegisterUndo(undo.UndoGlobal())
         Presenter.moveDown()
         self.inIdle = False
-    
+
     def OnMoveLeft(self, evt):
         self.inIdle = True
-        g.undoMan.RegisterUndo(undo.UndoGlobal()) 
+        g.undoMan.RegisterUndo(undo.UndoGlobal())
         Presenter.moveLeft()
         self.inIdle = False
 
     def OnMoveRight(self, evt):
         self.inIdle = True
-        g.undoMan.RegisterUndo(undo.UndoGlobal()) 
+        g.undoMan.RegisterUndo(undo.UndoGlobal())
         Presenter.moveRight()
         self.inIdle = False
 
@@ -502,7 +502,7 @@ class _Listener:
             item = Presenter.item
             while item:
                 found = self.tree.Find(item, name)
-                if found: 
+                if found:
                     item = found
                     break
                 # Search the rest of the current subtree, then go up
@@ -515,22 +515,22 @@ class _Listener:
                     item = next
                     next = self.tree.GetNextSibling(next)
                 item = next
-            if not item: 
-                ask = wx.MessageBox('Search failed. Search from the root?', 
+            if not item:
+                ask = wx.MessageBox('Search failed. Search from the root?',
                                     'Question', wx.YES_NO)
                 if ask == wx.YES:
                     item = self.tree.Find(self.tree.root, name)
                 else:
                     self.frame.SetStatusText('')
                     return
-        if not item: 
+        if not item:
             self.frame.SetStatusText('Search failed')
             wx.LogError('No such name')
             return
         self.frame.SetStatusText('Search succeded')
         Presenter.unselect()
         self.tree.EnsureVisible(item)
-        self.tree.SelectItem(item)        
+        self.tree.SelectItem(item)
 
     def OnFindAgain(self, evt):
         self.frame.SetStatusText('Looking for "%s"' % self.lastSearch)
@@ -538,7 +538,7 @@ class _Listener:
             item = self.tree.Find(self.tree.root, self.lastSearch)
         else:
             # Find from current position
-            item = Presenter.item        
+            item = Presenter.item
             while item:
                 # Search the rest of the current subtree, then go up
                 next = self.tree.GetNextSibling(item)
@@ -552,15 +552,15 @@ class _Listener:
                 item = next
                 if item:
                     found = self.tree.Find(item, self.lastSearch)
-                    if found: 
+                    if found:
                         item = found
                         break
-            if not item: 
-                ask = wx.MessageBox('Search failed. Search from the root?', 
+            if not item:
+                ask = wx.MessageBox('Search failed. Search from the root?',
                                     'Question', wx.YES_NO)
                 if ask == wx.YES:
                     item = self.tree.Find(self.tree.root, name)
-                    if not item: 
+                    if not item:
                         self.frame.SetStatusText('Search failed')
                         wx.LogError('Search from the root failed.')
                         return
@@ -571,7 +571,7 @@ class _Listener:
         self.frame.SetStatusText('Search succeded')
         Presenter.unselect()
         self.tree.EnsureVisible(item)
-        self.tree.SelectItem(item)                
+        self.tree.SelectItem(item)
 
     def OnLocate(self, evt):
         frame = self.testWin.GetFrame()
@@ -606,7 +606,7 @@ Homepage: http://xrced.sourceforge.net\
 
     def OnHelpContents(self, evt):
       self.frame.htmlCtrl.DisplayContents()
-          
+
     def OnHelpReadme(self, evt):
         self.frame.ShowReadme()
 
@@ -633,7 +633,7 @@ Homepage: http://xrced.sourceforge.net\
         conf = g.conf
         self.toolFrame.Show()
         conf.showToolPanel = True
-        
+
     def OnTest(self, evt):
         if not Presenter.item: return
         Presenter.createTestWin(Presenter.item)
@@ -796,21 +796,21 @@ Homepage: http://xrced.sourceforge.net\
         if dlg.ShowModal() == wx.ID_OK:
             subclass = dlg.GetValue()
             Presenter.subclass(Presenter.item, subclass)
-        dlg.Destroy()        
+        dlg.Destroy()
 
     # Expand/collapse subtree
     def OnExpand(self, evt):
-        if self.tree.GetSelection(): 
+        if self.tree.GetSelection():
             map(self.tree.ExpandAllChildren, self.tree.GetSelections())
-        else: 
+        else:
             self.tree.ExpandAll()
 
     def OnCollapse(self, evt):
         # Prevent multiple calls to setData
         self.tree.Unbind(wx.EVT_TREE_ITEM_COLLAPSED)
-        if self.tree.GetSelection(): 
+        if self.tree.GetSelection():
             map(self.tree.CollapseAllChildren, self.tree.GetSelections())
-        else: 
+        else:
             self.tree.CollapseAll()
         self.tree.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.OnTreeItemCollapsed)
         if not self.tree.GetSelection():
@@ -829,7 +829,7 @@ Homepage: http://xrced.sourceforge.net\
     #
     # XMLTree event handlers
     #
-    
+
     def OnTreeLeftDown(self, evt):
         pt = evt.GetPosition();
         item, flags = self.tree.HitTest(pt)
@@ -900,7 +900,7 @@ Homepage: http://xrced.sourceforge.net\
 
     def OnPanelPageChanged(self, evt):
         TRACE('OnPanelPageChanged: %d=>%d', evt.GetOldSelection(), evt.GetSelection())
-        # Register new undo 
+        # Register new undo
         if Presenter.panelIsDirty():
             Presenter.createUndoEdit(page=evt.GetSelection())
         # Refresh test window after finishing
@@ -953,6 +953,6 @@ Homepage: http://xrced.sourceforge.net\
             g.lastActiveFrame = evt.GetEventObject()
         evt.Skip()
 
-        
+
 # Singleton class
 Listener = g.Listener = _Listener()

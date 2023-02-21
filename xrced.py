@@ -19,14 +19,14 @@ options:
 
 import os
 from optparse import OptionParser
-from globals import *
-import params
-from presenter import Presenter
-from listener import Listener
-from component import Manager
-import view
-import undo
-import plugin
+from .globals import *
+from . import params
+from .presenter import Presenter
+from .listener import Listener
+from .component import Manager
+from . import view
+from . import undo
+from . import plugin
 
 # for helping to attach to the process with gdb...
 #print "%s\nPID: %d\n" % (wx.version(), os.getpid()); #raw_input("Press Enter...")
@@ -52,7 +52,7 @@ if USE_INSPECTOR:
     AppBase = wx.lib.mixins.inspection.InspectableApp
 else:
     AppBase = wx.App
-    
+
 
 class App(AppBase):
     def OnInit(self):
@@ -68,7 +68,7 @@ Please upgrade wxWidgets to %d.%d.%d or higher.''' % MinWxVersion)
         g.undoMan = undo.UndoManager()
         Manager.init()
 
-        parser = OptionParser(prog=progname, 
+        parser = OptionParser(prog=progname,
                               version='%s version %s' % (ProgName, version),
                               usage='%prog [options] [XRC file]')
         parser.add_option('-d', '--debug', action='store_true',
@@ -87,14 +87,14 @@ Please upgrade wxWidgets to %d.%d.%d or higher.''' % MinWxVersion)
             set_verbose(True)
         if options.meta:
             g.useMeta = True
-            import meta
+            from . import meta
             Manager.register(meta.Component)
             Manager.setMenu(meta.Component, 'TOP_LEVEL', 'component', 'component plugin')
-            
+
         self.SetAppName(progname)
 
         self.ReadConfig()
-        
+
         # Add handlers
         wx.FileSystem.AddHandler(wx.MemoryFSHandler())
         self.toolArtProvider = view.ToolArtProvider()
@@ -156,19 +156,19 @@ Please upgrade wxWidgets to %d.%d.%d or higher.''' % MinWxVersion)
         g.fileHistory = wx.FileHistory()
         g.fileHistory.Load(conf)
 
-        conf.panelPos = wx.Point(conf.ReadInt('panelX', -1), 
+        conf.panelPos = wx.Point(conf.ReadInt('panelX', -1),
                                  conf.ReadInt('panelY', -1))
         conf.panelSize = wx.Size(conf.ReadInt('panelWidth', 200),
                                  conf.ReadInt('panelHeight', 200))
         conf.sashPos = conf.ReadInt('sashPos', 200)
-        
-        conf.toolPanelPos = wx.Point(conf.ReadInt('toolPanelX', -1), 
+
+        conf.toolPanelPos = wx.Point(conf.ReadInt('toolPanelX', -1),
                                      conf.ReadInt('toolPanelY', -1))
         if wx.Platform == '__WXMAC__':
             conf.toolPanelPos.y += 4  # OSX has some issues with miniframe
-        conf.toolPanelSize = wx.Size(conf.ReadInt('toolPanelWidth', -1), 
+        conf.toolPanelSize = wx.Size(conf.ReadInt('toolPanelWidth', -1),
                                      conf.ReadInt('toolPanelHeight', -1))
-        
+
         # Preferences
         conf.toolPanelType = conf.Read('Prefs/toolPanelType', 'TB')
         conf.toolThumbSize = conf.ReadInt('Prefs/toolThumbSize', 48)
@@ -193,9 +193,9 @@ Please upgrade wxWidgets to %d.%d.%d or higher.''' % MinWxVersion)
         else:
             conf.defaultsControl = {}
         conf.SetPath('/')
-            
+
     def WriteConfig(self):
-        
+
         # Write config
         conf = g.conf
         conf.SetPath('/')
@@ -240,7 +240,7 @@ Please upgrade wxWidgets to %d.%d.%d or higher.''' % MinWxVersion)
         if v: conf.Write('Prefs/Defaults/Container', DictToString(v))
         v = conf.defaultsControl
         if v: conf.Write('Prefs/Defaults/Control', DictToString(v))
-        
+
         conf.Flush()
 
 def main():
@@ -251,7 +251,7 @@ def main():
             if arg.startswith('-psn'):
                 del sys.argv[idx]
                 break
-            
+
     app = App(0, useBestVisual=False)
     #app.SetAssertMode(wx.PYAPP_ASSERT_LOG)
     app.MainLoop()

@@ -6,7 +6,7 @@
 
 import os,sys
 from xml.dom import minidom
-from globals import *
+from .globals import *
 
 # Redefine writing to include encoding
 class MyDocument(minidom.Document):
@@ -54,7 +54,7 @@ class _Model:
             wx.SetDefaultPyEncoding(dom.encoding.encode())
         else:
             dom.encoding = ''
-        
+
     def saveXML(self, path):
         if self.dom.encoding:
             import codecs
@@ -81,7 +81,7 @@ class _Model:
         except:
             logger.exception('error writing temporary XML file')
             wx.LogError('Error writing temporary XML file')
-        memFile.close()                 # write to wxMemoryFS        
+        memFile.close()                 # write to wxMemoryFS
 
     def indent(self, domCopy, node, indent = 0):
         '''Indent node which must be a comment or an element node and children.'''
@@ -167,7 +167,7 @@ class MemoryFile:
             self.buffer += data.encode(encoding)
         except UnicodeEncodeError:
             self.buffer += data.encode(encoding, 'xmlcharrefreplace')
-            
+
     def close(self):
         wx.MemoryFSHandler.AddFile(self.name, self.buffer)
 

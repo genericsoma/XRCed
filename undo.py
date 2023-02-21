@@ -4,10 +4,10 @@
 # Created:      01.12.2002
 # RCS-ID:       $Id$
 
-from globals import *
-import view
-from component import Manager
-from model import Model
+from .globals import *
+from . import view
+from .component import Manager
+from .model import Model
 
 undo_depth = 10                 # max number of undo remembered
 
@@ -52,11 +52,11 @@ class UndoManager:
     def CanRedo(self):
         return bool(self.redo)
     def UpdateToolHelp(self):
-        if g.undoMan.CanUndo(): 
+        if g.undoMan.CanUndo():
             msg = 'Undo ' + self.GetUndoLabel()
             view.frame.tb.SetToolShortHelp(wx.ID_UNDO, msg)
             view.frame.tb.SetToolLongHelp(wx.ID_UNDO, msg)
-        if g.undoMan.CanRedo(): 
+        if g.undoMan.CanRedo():
             msg = 'Redo ' + self.GetRedoLabel()
             view.frame.tb.SetToolShortHelp(wx.ID_REDO, msg)
             view.frame.tb.SetToolLongHelp(wx.ID_REDO, msg)
@@ -154,7 +154,7 @@ class UndoReplace(Undo):
         view.tree.EnsureVisible(item)
         # Update panel
         view.tree.SelectItem(item)
-        Presenter.setModified()        
+        Presenter.setModified()
 
 class UndoEdit(Undo):
     '''Undo class for using in AttributePanel.'''

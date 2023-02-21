@@ -21,18 +21,16 @@ using the Manager global object.
 
 import os,sys,bisect
 import wx
-try: set
-except: from sets import Set as set
-from globals import *
-from model import Model
-from attribute import *
-import params
-import view
-import images
+from .globals import *
+from .model import Model
+from .attribute import *
+from . import params
+from . import view
+from . import images
 
 DEFAULT_POS = (1000,1000)
 
-# Group compatibility specifications. 
+# Group compatibility specifications.
 # Key is the parent group, value is the list of child groups.
 # !value means named main group is excluded from possible children.
 # "root" is a special group for the tree root
@@ -40,8 +38,8 @@ parentChildGroups = {
     'root': ['top_level', 'component'],      # top-level objects
     'frame': ['toolbar', 'menubar', 'statusbar'],
     'mdi_parent_frame': ['toolbar', 'menubar', 'statusbar', 'mdi_child_frame'],
-    'mdi_child_frame': ['toolbar', 'menubar', 'statusbar', 
-                        'control', 'window', 'sizer', 'btnsizer', 
+    'mdi_child_frame': ['toolbar', 'menubar', 'statusbar',
+                        'control', 'window', 'sizer', 'btnsizer',
                         '!frame', '!mdi_child_frame'],
     'wizard': ['wizard_page'],
     'window': ['control', 'window', 'sizer', 'btnsizer', '!frame', '!mdi_child_frame'],
@@ -64,7 +62,7 @@ primary group. This dictionary can be modified by component plugins directly
 class Component(object):
     '''Base class for component plugins.'''
     # Common window attributes
-    windowAttributes = ['fg', 'bg', 'font', 'tooltip', 'help', 
+    windowAttributes = ['fg', 'bg', 'font', 'tooltip', 'help',
                         'enabled', 'focused', 'hidden']
     '''Default window attributes for window-like components.'''
     genericStyles = [
@@ -96,10 +94,10 @@ class Component(object):
         'EVT_WINDOW_CREATE', 'EVT_WINDOW_DESTROY',
         'EVT_MOVE', 'EVT_SIZE',
         'EVT_MOUSE_EVENTS', 'EVT_MOTION',
-        'EVT_LEFT_DOWN', 'EVT_LEFT_DCLICK', 
-        'EVT_MIDDLE_DOWN', 'EVT_MIDDLE_DCLICK', 
+        'EVT_LEFT_DOWN', 'EVT_LEFT_DCLICK',
+        'EVT_MIDDLE_DOWN', 'EVT_MIDDLE_DCLICK',
         'EVT_RIGHT_DOWN', 'EVT_RIGHT_DCLICK',  'EVT_MOUSEWHEEL',
-        'EVT_ENTER_WINDOW', 'EVT_LEAVE_WINDOW', 
+        'EVT_ENTER_WINDOW', 'EVT_LEAVE_WINDOW',
         'EVT_KEY_DOWN', 'EVT_KEY_UP', 'EVT_CHAR',
         'EVT_PAINT', 'EVT_ERASE_BACKGROUND',
         'EVT_CONTEXT_MENU', 'EVT_HELP',
@@ -118,10 +116,10 @@ class Component(object):
     '''True if component can generate code.'''
     isTestable = False
     '''True if component can be inserted directly in the test view.'''
-    
+
     def __init__(self, klass, groups, attributes, **kargs):
         '''
-        Construct a new Component object. 
+        Construct a new Component object.
 
         @param klass: Interface element class name (e.g. C{'wxButton'}).
         @param groups: List of group names to which this component belongs.
@@ -188,7 +186,7 @@ class Component(object):
 
     def setParamClass(self, attrName, paramClass):
         '''Set special attribute panel class for editing attribute value.
-        
+
         @param attrName: Attribute name.
         @param paramClass: Param class.
         '''
@@ -224,7 +222,7 @@ class Component(object):
     # Order components having same index by group and klass
     def __cmp__(self, other):
         if self.groups < other.groups: return -1
-        elif self.groups == other.groups: 
+        elif self.groups == other.groups:
             if self.klass < other.klass: return -1
             elif self.klass == other.klass: return 0
             else: return 1
@@ -287,10 +285,10 @@ class Component(object):
                                      style=wx.CAPTION|wx.CLOSE_BOX|wx.RESIZE_BORDER)
                 frame.panel = wx.Panel(frame)
             object = res.LoadObject(frame.panel, STD_NAME, self.klass)
-            if not object or not isinstance(object, wx.Window): 
+            if not object or not isinstance(object, wx.Window):
                 raise TestWinError
             object.SetPosition((10,10))
-            if g.conf.fitTestWin: 
+            if g.conf.fitTestWin:
                 object.Fit()
                 if frame:
                     frame.SetClientSize(object.GetSize()+(20,20))
@@ -529,7 +527,7 @@ class SmartContainer(Container):
                 elem.appendChild(newNode)
                 parentNode.replaceChild(elem, oldNode)
             else:
-                parentNode.replaceChild(newNode, oldNode)            
+                parentNode.replaceChild(newNode, oldNode)
 
     def requireImplicit(self, node):
         # SmartContainer by default requires implicit
@@ -546,15 +544,15 @@ class Sizer(SmartContainer):
     hasName = False
     isTestable = False
     genericStyles = []
-    genericExStyles = []    
+    genericExStyles = []
     renameDict = {'orient':'orientation'}
     implicitRenameDict = {'option':'proportion'}
     def __init__(self, klass, groups, attributes, **kargs):
         kargs.setdefault('implicit_klass', 'sizeritem')
         kargs.setdefault('implicit_page', 'SizerItem')
         kargs.setdefault('implicit_attributes', ['option', 'flag', 'border', 'minsize', 'ratio'])
-        kargs.setdefault('implicit_params', {'option': params.ParamInt, 
-                                             'minsize': params.ParamPosSize, 
+        kargs.setdefault('implicit_params', {'option': params.ParamInt,
+                                             'minsize': params.ParamPosSize,
                                              'ratio': params.ParamPosSize})
         SmartContainer.__init__(self, klass, groups, attributes, **kargs)
 
@@ -633,7 +631,7 @@ class BoxSizer(Sizer):
                     self.addAttribute(sizerItem, a, v)
             else:
                 for a,v in g.conf.defaultsControl.items():
-                    self.addAttribute(sizerItem, a, v)        
+                    self.addAttribute(sizerItem, a, v)
 
     def appendChild(self, parentNode, node):
         Sizer.appendChild(self, parentNode, node)
@@ -648,11 +646,11 @@ class BoxSizer(Sizer):
         self.setDefaults(node)
 
 ################################################################################
-    
+
 class _ComponentManager:
     '''Component manager used to register component plugins.'''
     def __init__(self):
-        self.rootComponent = RootComponent('root', ['root'], ['encoding'], 
+        self.rootComponent = RootComponent('root', ['root'], ['encoding'],
                                            specials={'encoding': EncodingAttribute},
                                            params={'encoding': params.ParamEncoding})
         self.components = {}
@@ -660,7 +658,7 @@ class _ComponentManager:
         self.firstId = self.lastId = -1
         self.menus = {}
         self.panels = {}
-        self.menuNames = ['TOP_LEVEL', 'ROOT', 'bar', 'control', 'button', 'box', 
+        self.menuNames = ['TOP_LEVEL', 'ROOT', 'bar', 'control', 'button', 'box',
                           'container', 'sizer', 'custom']
         self.panelNames = ['Windows', 'Panels', 'Controls', 'Sizers',  'Menus',
                            'Gizmos', 'Custom']
@@ -719,7 +717,7 @@ class _ComponentManager:
     def getPanelData(self, panel):
         return self.panels.get(panel, None)
 
-    def setTool(self, component, panel, bitmap=None, 
+    def setTool(self, component, panel, bitmap=None,
                 pos=DEFAULT_POS, span=(1,1)):
         '''Set toolpanel data.'''
         if panel not in self.panelNames: self.panelNames.append(panel)
@@ -745,7 +743,7 @@ class _ComponentManager:
         using ctypes.
         '''
         self.handlers.append(h)
-        
+
     def findById(self, id):
         return self.ids[id]
 
@@ -777,7 +775,7 @@ class _ComponentManager:
         for f in self.external:
             TRACE('Loading external resources: %s', f)
             res.Load(f)
-        
+
 
 # Singleton object
 Manager = _ComponentManager()

@@ -1,19 +1,19 @@
 # Name:         meta.py
-# Purpose:      
+# Purpose:
 # Author:       Roman Rolinsky <rolinsky@femagsoft.com>
 # Created:      05.07.2007
 # RCS-ID:       $Id: core.py 47129 2007-07-04 22:38:37Z ROL $
 
-from globals import *
-import component
-from attribute import *
-import params
+from .globals import *
+from . import component
+from .attribute import *
+from . import params
 
 # Meta-components for loading CRX files
 
 Component = component.SimpleComponent(
     'Component', ['component'],
-    ['provider', 'version', 'url', 
+    ['provider', 'version', 'url',
      'groups', 'attributes', 'params', 'has-name', 'styles', 'events',
      'DL', 'module', 'handler',
      'menu', 'label', 'help', 'index', 'panel', 'pos', 'span'],
@@ -35,6 +35,6 @@ Component = component.SimpleComponent(
             'has-name': params.ParamBool,
             'handler': params.ParamLongText,
             'index': params.ParamInt,
-            'pos': params.ParamPosSize, 
+            'pos': params.ParamPosSize,
             'span': params.ParamPosSize})
 

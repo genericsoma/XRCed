@@ -12,7 +12,7 @@ retrieve XML data into Python objects.
 '''
 
 import cPickle
-from model import Model
+from .model import Model
 
 class Attribute:
     '''Base class, used for simple attributes, i.e. single attributes
@@ -120,7 +120,7 @@ class HelpContentAttribute:
                 helptext = n.getAttribute('helptext')
                 value.append((str(Attribute.get(n)), str(tooltip), str(helptext)))
         return value
-    
+
 
 class DictAttribute:
     '''DictAttribute uses dictionary object for passing data.'''
@@ -144,7 +144,7 @@ class DictAttribute:
         return value
 
 class FontAttribute(DictAttribute):
-    attributes = ['size', 'style', 'weight', 'underlined', 'family', 'face', 'encoding', 
+    attributes = ['size', 'style', 'weight', 'underlined', 'family', 'face', 'encoding',
                   'sysfont', 'relativesize']
 
 class CodeAttribute(DictAttribute):
@@ -191,7 +191,7 @@ class BitmapAttribute:
     def get(node):
         if node is None: return []
         return [node.getAttribute('stock_id'), Attribute.get(node)]
-            
+
 class AttributeAttribute:
     '''Attribute as an XML attribute of the element node.'''
     @staticmethod
@@ -212,7 +212,7 @@ class EncodingAttribute(AttributeAttribute):
     @staticmethod
     def getAA(elem, attribute):
         return Model.dom.encoding
-            
+
 class CDATAAttribute(Attribute):
     def add(parentNode, attribute, value):
         '''value is a dictionary.'''
@@ -230,7 +230,7 @@ class CDATAAttribute(Attribute):
                 return cPickle.loads(n.wholeText.encode())
         except IndexError:
             pass
-    
+
 class CommentAttribute(AttributeAttribute):
     '''Comment is the value of comment object.'''
     @staticmethod
@@ -239,4 +239,4 @@ class CommentAttribute(AttributeAttribute):
     @staticmethod
     def getAA(node, attribute):
         return node.data
-            
+

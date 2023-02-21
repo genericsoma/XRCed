@@ -5,15 +5,15 @@
 # RCS-ID:       $Id$
 
 import os
-from XMLTree import XMLTree
-from XMLTreeMenu import XMLTreeMenu
-from AttributePanel import Panel, AttributePanel
-from TestWin import TestWindow
-from tools import *
-import images
+from .XMLTree import XMLTree
+from .XMLTreeMenu import XMLTreeMenu
+from .AttributePanel import Panel, AttributePanel
+from .TestWin import TestWindow
+from .tools import *
+from . import images
 if wx.Platform == '__WXMAC__':
     # Substitute higher-res icons for Mac
-    import images_32x32
+    from . import images_32x32
     images.__dict__.update(images_32x32.__dict__)
 import wx.aui
 import wx.html
@@ -50,7 +50,7 @@ def create_tools():
         return None
     else:
         # Tool panel on a MiniFrame
-        toolFrame = wx.MiniFrame(frame, -1, 'Components', 
+        toolFrame = wx.MiniFrame(frame, -1, 'Components',
                                  g.conf.toolPanelPos,
                                  style=wx.CAPTION|wx.CLOSE_BOX|wx.RESIZE_BORDER)
                                      # This causes hiding on KDE
@@ -113,7 +113,7 @@ class Frame(wx.Frame):
             parent = splitter
 
         # always use the native toolbar on Mac, it looks too sucky otherwise
-        if g.useAUI and wx.Platform != '__WXMAC__':  
+        if g.useAUI and wx.Platform != '__WXMAC__':
             self.mgr.AddPane(tb, wx.aui.AuiPaneInfo().
                              Name("tb").Caption("Toolbar").
                              ToolbarPane().Top().LeftDockable(False).RightDockable(False))
@@ -172,7 +172,7 @@ class Frame(wx.Frame):
                 panel = Panel(mf)
                 mfSizer.Add(panel, 1, wx.EXPAND)
                 splitter.Initialize(tree)
-            
+
         if wx.Platform == '__WXMAC__':
             self.SetClientSize(size)
 
@@ -187,7 +187,7 @@ class Frame(wx.Frame):
         menu.Append(wx.ID_NEW, '&New\tCtrl-N', 'New file')
         menu.AppendSeparator()
         menu.Append(wx.ID_OPEN, '&Open...\tCtrl-O', 'Open XRC file')
-        
+
         self.recentMenu = wx.Menu()
         g.fileHistory.UseMenu(self.recentMenu)
         g.fileHistory.AddFilesToMenu()
@@ -198,7 +198,7 @@ class Frame(wx.Frame):
         menu.Append(wx.ID_SAVE, '&Save\tCtrl-S', 'Save XRC file')
         menu.Append(wx.ID_SAVEAS, 'Save &As...', 'Save XRC file under different name')
         self.ID_GENERATE_PYTHON = wx.NewId()
-        menu.Append(self.ID_GENERATE_PYTHON, '&Generate Python...', 
+        menu.Append(self.ID_GENERATE_PYTHON, '&Generate Python...',
                     'Generate a Python module that uses this XRC')
         menu.AppendSeparator()
         menu.Append(wx.ID_PREFERENCES, 'Preferences...', 'Change XRCed settings')
@@ -214,7 +214,7 @@ class Frame(wx.Frame):
         menu.Append(wx.ID_CUT, 'Cut\tCtrl-X', 'Cut to the clipboard')
         menu.Append(wx.ID_COPY, '&Copy\tCtrl-C', 'Copy to the clipboard')
         menu.Append(ID.PASTE, '&Paste\tCtrl-V', 'Paste from the clipboard')
-        menu.Append(ID.PASTE_SIBLING, '&Paste Sibling\tAlt-Ctrl-V', 
+        menu.Append(ID.PASTE_SIBLING, '&Paste Sibling\tAlt-Ctrl-V',
                     'Paste clipboard as a sibling')
         menu.Append(wx.ID_DELETE, '&Delete\tCtrl-D', 'Delete object')
         menu.AppendSeparator()
@@ -228,9 +228,9 @@ class Frame(wx.Frame):
         self.ART_LOCATE = 'ART_LOCATE'
         self.ID_LOCATE = wx.NewId()
         menu.Append(self.ID_LOCATE, '&Locate\tCtrl-L', 'Locate control in test window and select it')
-        
+
         menuBar.Append(menu, '&Edit')
-        
+
         menu = wx.Menu()                # View menu
         self.ID_EMBED_PANEL = wx.NewId()
         menu.Append(self.ID_EMBED_PANEL, '&Embed Panel',
@@ -253,9 +253,9 @@ class Frame(wx.Frame):
         menu.Check(self.ID_AUTO_REFRESH, g.conf.autoRefresh)
         menu.AppendSeparator()
         self.ID_SHOW_XML = wx.NewId()
-        menu.Append(self.ID_SHOW_XML, 'Show &XML...', 
+        menu.Append(self.ID_SHOW_XML, 'Show &XML...',
                     'Display XML source for the selected subtree')
-        
+
         menuBar.Append(menu, '&View')
 
         menu = wx.Menu()                # Move menu
@@ -271,7 +271,7 @@ class Frame(wx.Frame):
         self.ID_MOVERIGHT = wx.NewId()
         self.ART_MOVERIGHT = 'ART_MOVERIGHT'
         menu.Append(self.ID_MOVERIGHT, '&Make child', 'Make child of previous sibling')
-        
+
         menuBar.Append(menu, '&Move')
 
         menu = wx.Menu()                # Help menu
@@ -282,7 +282,7 @@ class Frame(wx.Frame):
         if get_debug():
             self.ID_DEBUG_CMD = wx.NewId()
             menu.Append(self.ID_DEBUG_CMD, 'CMD', 'Python command line')
-            
+
         menuBar.Append(menu, '&Help')
 
         self.menuBar = menuBar
@@ -355,7 +355,7 @@ class Frame(wx.Frame):
         tb.AddSimpleTool(self.ID_AUTO_REFRESH, bmp,
                          'Auto-refresh', 'Toggle auto-refresh mode', True)
         tb.ToggleTool(self.ID_AUTO_REFRESH, g.conf.autoRefresh)
-        tb.Realize() 
+        tb.Realize()
 
     def EmbedUnembed(self, embedPanel):
         conf = g.conf
@@ -390,7 +390,7 @@ class Frame(wx.Frame):
             # Reduce width
             conf.size.width -= conf.panelSize.width
             self.SetSize(conf.size)
-        
+
         # Set long or short toolbar
         self.InitToolBar(embedPanel)
 
@@ -457,9 +457,9 @@ class PrefsDialog(wx.Dialog): #(wx.PropertySheetDialog): !!! not wrapper yed - w
     def __init__(self, parent):
         pre = g.res.LoadObject(parent, 'DIALOG_PREFS', 'wxPropertySheetDialog')
         self.PostCreate(pre)
-        
+
         self.Fit()
-        
+
         self.checkControls = {} # map of check IDs to (control,dict,param)
         conf = g.conf
 

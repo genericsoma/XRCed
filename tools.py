@@ -4,10 +4,10 @@
 # Created:      19.03.2003
 # RCS-ID:       $Id$
 
-from globals import *
-from component import Manager, DEFAULT_POS
-import view
-import images
+from .globals import *
+from .component import Manager, DEFAULT_POS
+from . import view
+from . import images
 import wx.lib.foldpanelbar as fpb
 
 #if wx.Platform in ['__WXMAC__', '__WXMSW__']:
@@ -41,7 +41,7 @@ class ToolPanel(wx.PyPanel):
             self.il = il
             self.tp.AssignImageList(il)
         elif g.conf.toolPanelType == 'FPB':
-            self.tp = fpb.FoldPanelBar(self, -1, wx.DefaultPosition, wx.DefaultSize, 
+            self.tp = fpb.FoldPanelBar(self, -1, wx.DefaultPosition, wx.DefaultSize,
                                        agwStyle=fpb.FPB_VERTICAL)
             sizer.Add(self.tp, 1, wx.EXPAND)
         self.panels = []
@@ -66,7 +66,7 @@ class ToolPanel(wx.PyPanel):
                 panel.Reparent(p)
                 p.AddWindow(panel, fpb.FPB_ALIGN_WIDTH)
         self.tp.Fit()
-        
+
         self.SetSizer(sizer)
         # Allow to be resized in horizontal direction only
         # Events
@@ -85,7 +85,7 @@ class ToolPanel(wx.PyPanel):
         return wx.Size(w,h)
 
     def AddButton(self, panel, pos, span, id, bmp, text):
-        button = BitmapButton(panel, id, bmp, 
+        button = BitmapButton(panel, id, bmp,
                               style=wx.NO_BORDER)# | wx.WANTS_CHARS)
         button.SetBezelWidth(0)
 #        wx.EVT_KEY_DOWN(button, self.OnKeyDown)
@@ -158,7 +158,7 @@ class ToolPanel(wx.PyPanel):
         if evt.Dragging() and evt.LeftIsDown():
             d = evt.GetPosition() - self.posDown
             if max(abs(d[0]), abs(d[1])) >= 5:
-                if self.btnDown.HasCapture(): 
+                if self.btnDown.HasCapture():
                     # Generate up event to release mouse
                     evt = wx.MouseEvent(wx.EVT_LEFT_UP.typeId)
                     #evt.SetId(self.btnDown.GetId())

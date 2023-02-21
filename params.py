@@ -6,13 +6,13 @@
 
 '''
 Visual C{Param*} classes for populating C{AtrtibutePanel} with attribute editing
-blocks. 
+blocks.
 '''
 
 import string
 import os
 import wx.combo
-from globals import *
+from .globals import *
 
 WARenameDict = {'fg': 'foreground', 'bg': 'background'}
 
@@ -20,9 +20,9 @@ def InitParams(panel):
     '''Set pixel common size based on parent window.'''
 
     global Presenter
-    from presenter import Presenter
+    from .presenter import Presenter
     global Listener
-    from listener import Listener
+    from .listener import Listener
 
     dc = wx.ClientDC(panel)
     global textH, textB
@@ -37,7 +37,7 @@ def InitParams(panel):
     bw, bh = 14, 16
     bmp = wx.EmptyBitmap(bw,bh)
     dc = wx.MemoryDC(bmp)
-    
+
     # clear to a specific background colour
     bgcolor = wx.Colour(255,254,255)
     dc.SetBackground(wx.Brush(bgcolor))
@@ -116,15 +116,15 @@ class ParamBinaryOr(PPanel):
         # ComboCtrl still generates events in SetValue
         if self.freeze: return
         Presenter.setApplied(False)
-        evt.Skip()        
+        evt.Skip()
 
 class ParamFlag(ParamBinaryOr):
     '''Sizer flag editing.'''
     values = ['wxTOP', 'wxBOTTOM', 'wxLEFT', 'wxRIGHT', 'wxALL',
               'wxEXPAND', 'wxGROW', 'wxSHAPED', 'wxSTRETCH_NOT',
               'wxALIGN_CENTRE', 'wxALIGN_LEFT', 'wxALIGN_RIGHT',
-              'wxALIGN_TOP', 'wxALIGN_BOTTOM', 
-              'wxALIGN_CENTRE_VERTICAL', 'wxALIGN_CENTRE_HORIZONTAL', 
+              'wxALIGN_TOP', 'wxALIGN_BOTTOM',
+              'wxALIGN_CENTRE_VERTICAL', 'wxALIGN_CENTRE_HORIZONTAL',
               'wxADJUST_MINSIZE', 'wxFIXED_MINSIZE',
               'wxRESERVE_SPACE_EVEN_IF_HIDDEN',
               ]
@@ -251,13 +251,13 @@ class ParamFont(PPanel):
         face = d.get('face','')
         enc = wx.FONTENCODING_DEFAULT
         mapper = wx.FontMapper()
-        if 'encoding' in d and d['encoding'] != 'default': 
+        if 'encoding' in d and d['encoding'] != 'default':
             enc = mapper.CharsetToEncoding(d['encoding'])
         if error: wx.LogError('Invalid font specification')
         if enc == wx.FONTENCODING_DEFAULT: enc = wx.FONTENCODING_SYSTEM
         font = wx.Font(size, family, style, weight, underlined, face, enc)
         return font
-        
+
     def SetValue(self, value):
         if not value:
             self.text.ChangeValue('')
@@ -306,7 +306,7 @@ class ParamInt(PPanel):
         self.spin.Bind(wx.EVT_SPIN_DOWN, self.OnSpinDown)
         self.text.Bind(wx.EVT_TEXT, self.OnChange)
         self.text.Bind(wx.EVT_KILL_FOCUS, self.OnKillFocus)
-        
+
     def GetValue(self):
         return self.text.GetValue()
     def SetValue(self, value):
@@ -987,7 +987,7 @@ paramDict = {
     # window attributes
     'fg': ParamColour, 'bg': ParamColour, 'font': ParamFont,
     'enabled': ParamInverseBool, 'focused': ParamBool, 'hidden': ParamBool,
-    'tooltip': ParamLongText, 
+    'tooltip': ParamLongText,
     # other
     'bitmap': ParamBitmap, 'icon': ParamBitmap,
     'comment': ParamComment,
@@ -1058,12 +1058,12 @@ class StylePanel(wx.Panel):
 #############################################################################
 
 class CheckListBoxComboPopup(wx.CheckListBox, wx.combo.ComboPopup):
-        
+
     def __init__(self, values):
         self.values = values
         self.PostCreate(wx.PreCheckListBox())
         wx.combo.ComboPopup.__init__(self)
-        
+
     def Create(self, parent):
         wx.CheckListBox.Create(self, parent)
         self.InsertItems(self.values, 0)
@@ -1115,7 +1115,7 @@ class CheckListBoxComboPopup(wx.CheckListBox, wx.combo.ComboPopup):
             if item >= 0:
                 self.Select(item)
                 self.curitem = item
-    
+
         def OnLeftDown(self, evt):
             self.value = self.curitem
             self.Check(self.value, not self.IsChecked(self.value))

@@ -4,10 +4,10 @@
 # Created:      31.05.2007
 # RCS-ID:       $Id$
 
-from globals import *
-from model import Model
-from component import Manager, Component, Container
-import images
+from .globals import *
+from .model import Model
+from .component import Manager, Component, Container
+from . import images
 
 class XMLTree(wx.TreeCtrl):
     def __init__(self, parent):
@@ -85,7 +85,7 @@ class XMLTree(wx.TreeCtrl):
                 comp = Component(className, 'unknown', attributes)
             Manager.register(comp)
             wx.LogWarning('Unknown component class "%s", registered as generic' % className)
-        item = self.AppendItem(parent, comp.getTreeText(node), 
+        item = self.AppendItem(parent, comp.getTreeText(node),
                                image=comp.getTreeImageId(node),
                                data=wx.TreeItemData(node))
         self.SetItemStyle(item, node)
@@ -123,7 +123,7 @@ Allow to execute?''', 'Warning', wx.ICON_EXCLAMATION | wx.YES_NO)
         elif node.tagName == 'object_ref':
             self.SetItemTextColour(item, self.COLOUR_REF)
 #        elif treeObj.hasStyle and treeObj.params.get('hidden', False):
-#            self.SetItemTextColour(item, self.COLOUR_HIDDEN)        
+#            self.SetItemTextColour(item, self.COLOUR_HIDDEN)
 
     def Flush(self):
         '''Update all items after changes in model.'''
@@ -207,7 +207,7 @@ Allow to execute?''', 'Warning', wx.ICON_EXCLAMATION | wx.YES_NO)
         n = 0                           # index of sibling
         prev = self.GetPrevSibling(item)
         while prev.IsOk():
-            if self.GetPyData(prev).nodeType != Model.dom.COMMENT_NODE: 
+            if self.GetItemData(prev).nodeType != Model.dom.COMMENT_NODE:
                 n += 1
             prev = self.GetPrevSibling(prev)
         return n
