@@ -161,9 +161,9 @@ class _Listener:
         # Tool panel events
         toolPanel = g.toolPanel
         toolPanel.tp.Bind(wx.EVT_TOOLBOOK_PAGE_CHANGED, self.OnToolPanelPageChanged)
-        wx.EVT_COMMAND_RANGE(toolPanel.tp, Manager.firstId, Manager.lastId,
-                             wx.wxEVT_COMMAND_BUTTON_CLICKED,
-                             self.OnComponentTool)
+        #!!wx.EVT_COMMAND_RANGE(, Manager.firstId, Manager.lastId,
+        #                     wx.wxEVT_COMMAND_BUTTON_CLICKED,
+        #                     self.OnComponentTool)
         if toolFrame:
             toolFrame.Bind(wx.EVT_CLOSE, self.OnCloseToolFrame)
 
