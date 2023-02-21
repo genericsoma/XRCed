@@ -295,11 +295,11 @@ class ParamInt(PPanel):
         self.text = wx.TextCtrl(self, size=(textW,textH))
         self.spin.SetRange(*self.range)
         if wx.Platform == '__WXMAC__':
-            sizer.Add(self.text, 0, wx.ALIGN_CENTER_VERTICAL | wx.EXPAND | wx.ALL, textB)
+            sizer.Add(self.text, 0, wx.ALIGN_CENTER | wx.ALL, textB)
         else:
-            sizer.Add(self.text, 0, wx.ALIGN_CENTER_VERTICAL | wx.EXPAND | \
+            sizer.Add(self.text, 0, wx.ALIGN_CENTER | \
                           wx.LEFT | wx.TOP | wx.BOTTOM, textB)
-        sizer.Add(self.spin, 0, wx.ALIGN_CENTER_VERTICAL | wx.EXPAND)
+        sizer.Add(self.spin, 0, wx.EXPAND)
         self.SetSizer(sizer)
         self.spin.Bind(wx.EVT_SPIN_UP, self.OnSpinUp)
         self.spin.Bind(wx.EVT_SPIN_DOWN, self.OnSpinDown)
