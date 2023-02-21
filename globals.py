@@ -33,7 +33,7 @@ if wx.VERSION[:3] < MinWxVersion:
 # Can be changed to set other default encoding different
 #defaultEncoding = ''
 # you comment above and can uncomment this:
-defaultEncoding = wx.GetDefaultPyEncoding()
+defaultEncoding = "utf-8"  #!!
 
 # Constant to define standart window name for tested component
 STD_NAME = '_XRCED_T_W'

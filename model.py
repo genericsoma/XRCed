@@ -50,10 +50,10 @@ class _Model:
         self.init(dom)
 
         # Set encoding global variable and default encoding
-        if dom.encoding:
-            wx.SetDefaultPyEncoding(dom.encoding.encode())
-        else:
-            dom.encoding = ''
+        #!!if dom.encoding:
+        #    wx.SetDefaultPyEncoding(dom.encoding.encode())
+        #else:
+        #    dom.encoding = ''
 
     def saveXML(self, path):
         if self.dom.encoding:
@@ -162,7 +162,7 @@ class MemoryFile:
         if Model.dom.encoding:
             encoding = Model.dom.encoding
         else:
-            encoding = wx.GetDefaultPyEncoding()
+            encoding = "utf-8"  #!!
         try:
             self.buffer += data.encode(encoding)
         except UnicodeEncodeError:
