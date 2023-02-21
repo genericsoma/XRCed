@@ -771,7 +771,7 @@ class RadioBox(PPanel):
             self.choicesInv[v] = i
             button = wx.RadioButton(self, -1, i, name=i)
             topSizer.Add(button, 0, wx.RIGHT, 5)
-            wx.EVT_RADIOBUTTON(self, button.GetId(), self.OnRadioChoice)
+            self.Bind(wx.EVT_RADIOBUTTON, self.OnRadioChoice, id=button.GetId())
         self.SetSizer(topSizer)
     def SetStringSelection(self, value):
         for i in self.choices.keys():
