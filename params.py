@@ -1042,9 +1042,9 @@ class StylePanel(wx.Panel):
         return [(self.tag, '|'.join(checked))]
 
     def SetValues(self, values):
-        styles = map(string.strip, values[0][1].split('|'))
+        styles = map(str.strip, values[0][1].split('|'))
         for s,check in self.controls:
-            check.SetValue(s in styles or (self.equivStyles.has_key(s) and self.equivStyles[s] in styles))
+            check.SetValue(s in styles or (s in self.equivStyles and self.equivStyles[s] in styles))
 
     def OnCheck(self, evt):
         Presenter.setApplied(False)
@@ -1061,7 +1061,7 @@ class CheckListBoxComboPopup(wx.CheckListBox, wx.combo.ComboPopup):
     def __init__(self, values):
         self.values = values
         self.PostCreate(wx.PreCheckListBox())
-        wx.combo.ComboPopup.__init__(self)
+        wx..ComboPopup.__init__(self)
 
     def Create(self, parent):
         wx.CheckListBox.Create(self, parent)

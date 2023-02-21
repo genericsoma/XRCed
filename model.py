@@ -157,7 +157,7 @@ class MemoryFile:
     '''Memory file proxy for python-like file object.'''
     def __init__(self, name):
         self.name = name
-        self.buffer = ''
+        self.buffer = b''
     def write(self, data):
         if Model.dom.encoding:
             encoding = Model.dom.encoding
