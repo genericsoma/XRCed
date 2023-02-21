@@ -261,7 +261,7 @@ if __name__ == '__main__':
     try:
         from XRCed.xrced import main
     except ImportError:
-        print >>sys.stderr, 'XRCed parent directory must be in PYTHONPATH for local running'
+        print('XRCed parent directory must be in PYTHONPATH for local running', file=sys.stderr)
         raise
     sys.modules['wx.tools.XRCed'] = sys.modules['XRCed']
     main()

@@ -89,8 +89,8 @@ class Frame(wx.Frame):
         self.htmlCtrl = wx.html.HtmlHelpController()
         programPath = os.path.dirname(__file__)
         if not (self.htmlCtrl.AddBook(os.path.join(programPath, "xrced.htb"))) :
-            print >> sys.stderr, "Cannot load help file \"xrced.htb\""
-            self.GetMenuBar().Enable(wx.ID_HELP_CONTENTS, False)        
+            print("Cannot load help file \"xrced.htb\"", file=sys.stderr)
+            self.GetMenuBar().Enable(wx.ID_HELP_CONTENTS, False)
 
         # Create toolbar
         self.tb = tb = wx.ToolBar(self, -1, style=wx.TB_FLAT | wx.TB_NODIVIDER)
@@ -341,7 +341,7 @@ class Frame(wx.Frame):
                              'Auto-refresh', 'Toggle auto-refresh mode', True)
             tb.ToggleTool(self.ID_AUTO_REFRESH, g.conf.autoRefresh)
         tb.Realize()
-        self.minWidth = tb.GetSize()[0] # minimal width is the size of toolbar 
+        self.minWidth = tb.GetSize()[0] # minimal width is the size of toolbar
 
     def InitMiniFrameToolBar(self, tb):
         bmp = wx.ArtProvider.GetBitmap(self.ART_LOCATE, wx.ART_TOOLBAR)

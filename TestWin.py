@@ -207,12 +207,12 @@ class TestWindow:
                 flag = sizerItem.GetFlag()
                 border = sizerItem.GetBorder()
                 if border != 0:
-                    x = (r.GetLeft() + r.GetRight()) / 2
+                    x = (r.GetLeft() + r.GetRight()) // 2
                     if flag & wx.TOP:
                         rects.append(wx.Rect(x, r.GetTop() - border, 0, border))
                     if flag & wx.BOTTOM:
                         rects.append(wx.Rect(x, r.GetBottom() + 1, 0, border))
-                    y = (r.GetTop() + r.GetBottom()) / 2
+                    y = (r.GetTop() + r.GetBottom()) // 2
                     if flag & wx.LEFT:
                         rects.append(wx.Rect(r.GetLeft() - border, y, border, 0))
                     if flag & wx.RIGHT:

@@ -129,7 +129,7 @@ def create_component(node):
                 import ctypes
                 g._CFuncPtr = ctypes._CFuncPtr
             except:
-                print 'import ctypes module failed'
+                print('import ctypes module failed')
         if g._CFuncPtr:
             dl = ctypes.CDLL(dlName)
             try:

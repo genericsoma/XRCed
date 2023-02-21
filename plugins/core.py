@@ -184,12 +184,12 @@ class WizardPage(component.Container):
     def makeTestWin(self, res, name):
         # Create single-page wizard
         wiz = wx.wizard.Wizard(view.frame, title='Test Wizard')
-        print self.klass
+        print(self.klass)
         import pdb;pdb.set_trace()
         page = wx.wizard.PrePyWizardPage()
-        print res.LoadOnObject(page, wiz, STD_NAME, self.klass)
+        print(res.LoadOnObject(page, wiz, STD_NAME, self.klass))
 #        page = res.LoadObject(wiz, STD_NAME, self.klass)
-        print page
+        print(page)
         wiz.RunWizard(page)
         wiz.Destroy()
         return None, None

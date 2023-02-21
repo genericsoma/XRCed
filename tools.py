@@ -187,7 +187,7 @@ class ToolPanel(wx.PyPanel):
 
     # Process key events
     def OnKeyDown(self, evt):
-        print evt.GetEventObject(), evt.GetKeyCode()
+        print(evt.GetEventObject(), evt.GetKeyCode())
         evt.Skip()
         return
         if evt.GetKeyCode() == wx.WXK_CONTROL:

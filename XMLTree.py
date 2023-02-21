@@ -35,12 +35,12 @@ class XMLTree(wx.TreeCtrl):
         # 0 is the default image index
         im = images.TreeDefault.GetImage()
         if im.GetWidth() != 22 or im.GetHeight() != 22:
-            im.Resize((22,22), ((22-im.GetWidth())/2,(22-im.GetHeight())/2))
+            im.Resize((22,22), ((22-im.GetWidth())//2,(22-im.GetHeight())//2))
         il.Add(im.ConvertToBitmap())
         # 1 is the default container image
         im = images.TreeDefaultContainer.GetImage()
         if im.GetWidth() != 22 or im.GetHeight() != 22:
-            im.Resize((22,22), ((22-im.GetWidth())/2,(22-im.GetHeight())/2))
+            im.Resize((22,22), ((22-im.GetWidth())//2,(22-im.GetHeight())//2))
         il.Add(im.ConvertToBitmap())
         # root icon
 #        self.rootImage = il.Add(images.TreeRoot.GetImage().Scale(16,16).ConvertToBitmap())
@@ -49,7 +49,7 @@ class XMLTree(wx.TreeCtrl):
             for im in component.images:
                 # Resize image if necessary
                 if im.GetWidth() != 22 or im.GetHeight() != 22:
-                    im.Resize((22,22), ((22-im.GetWidth())/2,(22-im.GetHeight())/2))
+                    im.Resize((22,22), ((22-im.GetWidth())//2,(22-im.GetHeight())//2))
                 im.Id = il.Add(im.ConvertToBitmap())
         self.il = il
         self.SetImageList(il)
@@ -110,7 +110,7 @@ Allow to execute?''', 'Warning', wx.ICON_EXCLAMATION | wx.YES_NO)
     def ExecCode(self, code):
         logger.debug('executing comment pragma: \n%s', code)
         try:
-            exec code in globals(), self.locals
+            exec(code in globals(), self.locals)  #!
         except:
             wx.LogError('exec error: "%s"' % code)
             logger.exception("execution of in-line comment failed")

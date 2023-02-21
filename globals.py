@@ -24,11 +24,11 @@ version = '0.2.1-0'
 # Minimal wxWidgets version
 MinWxVersion = (2,8,0)
 if wx.VERSION[:3] < MinWxVersion:
-    print '''\
+    print( '''\
 ******************************* WARNING **************************************
   This version of XRCed may not work correctly on your version of wxWidgets.
   Please upgrade wxWidgets to %d.%d.%d or higher.
-******************************************************************************''' % MinWxVersion    
+******************************************************************************''' % MinWxVersion)
 
 # Can be changed to set other default encoding different
 #defaultEncoding = ''
@@ -79,7 +79,7 @@ def get_verbose():
     return _verbose
 
 def TRACE(msg, *args):
-    if _debug and _verbose: print >> sys.stderr, 'TRACE: ' + (msg % args)
+    if _debug and _verbose: print('TRACE: ' + (msg % args), file=sys.stderr)
 
 class Globals:
     undoMan = None
@@ -87,13 +87,13 @@ class Globals:
     useMeta = False              # use meta-components
     _CFuncPtr = None             # _CFuncPtr from ctypes
     lastActiveFrame = None
-    
+
     def _makeFonts(self):
         self._sysFont = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
         self._labelFont = wx.Font(self._sysFont.GetPointSize(), wx.DEFAULT, wx.NORMAL, wx.BOLD)
         self._modernFont = wx.Font(self._sysFont.GetPointSize(), wx.MODERN, wx.NORMAL, wx.NORMAL)
         self._smallerFont = wx.Font(self._sysFont.GetPointSize()-1, wx.DEFAULT, wx.NORMAL, wx.NORMAL)
-        
+
     def sysFont(self):
         if not hasattr(self, "_sysFont"): self._makeFonts()
         return self._sysFont
@@ -106,7 +106,7 @@ class Globals:
     def smallerFont(self):
         if not hasattr(self, "_smallerFont"): self._makeFonts()
         return self._smallerFont
-    
+
 
 g = Globals()
 
@@ -125,7 +125,7 @@ class MyDataObject(wx.PyDataObjectSimple):
     def GetDataSize(self):
         return len(self.data)
     def GetDataHere(self):
-        return self.data  # returns a string  
+        return self.data  # returns a string
     def SetData(self, data):
         self.data = data
         return True

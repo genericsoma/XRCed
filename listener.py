@@ -614,9 +614,9 @@ Homepage: http://xrced.sourceforge.net\
     def OnDebugCMD(self, evt):
         while 1:
             try:
-                exec raw_input('C:\> ')
+                exec(raw_input('C:\> '))
             except EOFError:
-                print '^D'
+                print('^D')
                 break
             except:
                 import traceback
@@ -624,7 +624,7 @@ Homepage: http://xrced.sourceforge.net\
                 tblist =traceback.extract_tb(tb)[1:]
                 msg =' '.join(traceback.format_exception_only(etype, value)
                         +traceback.format_list(tblist))
-                print msg
+                print(msg)
 
     def OnEmbedPanel(self, evt):
         self.frame.EmbedUnembed(evt.IsChecked())

@@ -581,12 +581,12 @@ class Sizer(SmartContainer):
             flag = sizerItem.GetFlag()
             border = sizerItem.GetBorder()
             if border == 0: continue
-            x = (rect.GetLeft() + rect.GetRight()) / 2
+            x = (rect.GetLeft() + rect.GetRight()) // 2
             if flag & wx.TOP:
                 rects.append(wx.Rect(x, rect.GetTop() - border, 0, border))
             if flag & wx.BOTTOM:
                 rects.append(wx.Rect(x, rect.GetBottom() + 1, 0, border))
-            y = (rect.GetTop() + rect.GetBottom()) / 2
+            y = (rect.GetTop() + rect.GetBottom()) // 2
             if flag & wx.LEFT:
                 rects.append(wx.Rect(rect.GetLeft() - border, y, border, 0))
             if flag & wx.RIGHT:
@@ -613,10 +613,10 @@ class BoxSizer(Sizer):
             flag = sizerItem.GetFlag()
             if flag & wx.EXPAND:
                 if obj.GetOrientation() == wx.VERTICAL:
-                    y = (rect.GetTop() + rect.GetBottom()) / 2
+                    y = (rect.GetTop() + rect.GetBottom()) // 2
                     rects.append(wx.Rect(rect.x, y, rect.width, 0))
                 else:
-                    x = (rect.GetLeft() + rect.GetRight()) / 2
+                    x = (rect.GetLeft() + rect.GetRight()) // 2
                     rects.append(wx.Rect(x, rect.y, 0, rect.height))
         return rects
 
@@ -731,8 +731,8 @@ class _ComponentManager:
                 bitmap = images.ToolPanel_Default.GetBitmap()
         if g.conf.toolIconScale != 100:
             im = bitmap.ConvertToImage().Scale(
-                bitmap.GetWidth() * g.conf.toolIconScale / 100,
-                bitmap.GetHeight() * g.conf.toolIconScale / 100)
+                bitmap.GetWidth() * g.conf.toolIconScale // 100,
+                bitmap.GetHeight() * g.conf.toolIconScale // 100)
             bitmap = im.ConvertToBitmap()
         bisect.insort_left(self.panels[panel], (pos, span, component, bitmap))
 
@@ -753,13 +753,17 @@ class _ComponentManager:
             TRACE('registering Xml handler %s', h)
             if g._CFuncPtr and isinstance(h, g._CFuncPtr):
                 try:
-                    apply(h, ())
+                    #!! Need to fix for "apply" is not present in Python 3
+                    #    https://stackoverflow.com/questions/40644740/what-is-the-difference-between-the-apply-function-and-a-function-call-using-th
+                    #apply(h, ())
+                    pass
                 except:
                     logger.exception('error calling DL func "%s"', h)
                     wx.LogError('error calling DL func "%s"' % h)
             else:               # assume a python class handler
                 try:
-                    res.AddHandler(apply(h, ()))
+                    #res.AddHandler(apply(h, ()))  #!!
+                    pass
                 except:
                     logger.exception('error adding XmlHandler "%s"', h)
                     wx.LogError('error adding XmlHandler "%s"' % h)
