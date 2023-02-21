@@ -176,7 +176,7 @@ class ParamColour(PPanel):
         data.SetColour(self.GetValue())
         dlg = wx.ColourDialog(self, data)
         if dlg.ShowModal() == wx.ID_OK:
-            self.SetValue('#%02X%02X%02X' % dlg.GetColourData().GetColour().Get())
+            self.SetValue('#%02X%02X%02X' % dlg.GetColourData().GetColour().Get()[:3])
             Presenter.setApplied(False)
         dlg.Destroy()
 
