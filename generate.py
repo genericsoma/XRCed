@@ -10,9 +10,8 @@ from .presenter import Presenter
 class PythonOptions(wx.Dialog):
 
     def __init__(self, parent, cfg, dataFile):
-        pre = wx.PreDialog()
-        g.res.LoadOnDialog(pre, parent, "PYTHON_OPTIONS")
-        self.PostCreate(pre)
+        wx.Dialog.__init__(self)
+        g.res.LoadDialog(self, parent, 'PYTHON_OPTIONS')
 
         self.cfg = cfg
         self.dataFile = dataFile
@@ -47,7 +46,7 @@ class PythonOptions(wx.Dialog):
         dirname = os.path.abspath(os.path.dirname(path))
         name = os.path.split(path)[1]
         dlg = wx.FileDialog(self, 'Save As', dirname, name, '*.py',
-                               wx.SAVE | wx.OVERWRITE_PROMPT)
+                               wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             self.FileNameTC.SetValue(path)

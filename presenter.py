@@ -723,8 +723,7 @@ class _Presenter:
 
     def generatePython(self, dataFile, pypath, embed, genGettext):
         try:
-            import pywxrc
-            #from wx.tools import pywxrc
+            from wx.tools import pywxrc
             rescomp = pywxrc.XmlResourceCompiler()
             rescomp.MakePythonModule([dataFile], pypath, embed, genGettext,
                                      assignVariables=False)

@@ -599,7 +599,7 @@
             </object>
           </object>
         </object>
-        <flag>wxALL|wxEXPAND|wxALIGN_CENTRE_HORIZONTAL</flag>
+        <flag>wxALL|wxEXPAND</flag>
         <border>10</border>
       </object>
     </object>
