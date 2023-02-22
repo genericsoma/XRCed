@@ -753,17 +753,13 @@ class _ComponentManager:
             TRACE('registering Xml handler %s', h)
             if g._CFuncPtr and isinstance(h, g._CFuncPtr):
                 try:
-                    #!! Need to fix for "apply" is not present in Python 3
-                    #    https://stackoverflow.com/questions/40644740/what-is-the-difference-between-the-apply-function-and-a-function-call-using-th
-                    #apply(h, ())
-                    pass
+                    h()  #! Review
                 except:
                     logger.exception('error calling DL func "%s"', h)
                     wx.LogError('error calling DL func "%s"' % h)
             else:               # assume a python class handler
                 try:
-                    #res.AddHandler(apply(h, ()))  #!!
-                    pass
+                    res.AddHandler(h())  #! Review
                 except:
                     logger.exception('error adding XmlHandler "%s"', h)
                     wx.LogError('error adding XmlHandler "%s"' % h)
