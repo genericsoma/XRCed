@@ -68,7 +68,11 @@ class PPanel(wx.Panel):
     '''Abstract base class creating an empty C{wx.Panel}.'''
     isCheck = False
     def __init__(self, parent, name):
-        wx.Panel.__init__(self, parent, -1, name=name)
+        #!! Workaround for possible bug in XmlResource.LoadPanel which fails if parent is specified
+        if parent is None:
+            wx.Panel.__init__(self)
+        else:
+            wx.Panel.__init__(self, parent, name=name)
         self.name = name
     def Enable(self, value):
         self.enabled = value
@@ -430,9 +434,8 @@ class ContentDialog(wx.Dialog):
     '''Dialog for editing content attributes.'''
     def __init__(self, parent, value):
         # Load from resource
-        pre = wx.PreDialog()
-        g.res.LoadOnDialog(pre, parent, 'DIALOG_CONTENT')
-        self.PostCreate(pre)
+        wx.Dialog.__init__(self)
+        g.res.LoadDialog(self, parent, 'DIALOG_CONTENT')
         self.list = xrc.XRCCTRL(self, 'LIST')
         # Set list items
         for v in value:
@@ -445,15 +448,15 @@ class ContentDialog(wx.Dialog):
         self.ID_BUTTON_REMOVE = xrc.XRCID('BUTTON_REMOVE')
         self.ID_BUTTON_UP = xrc.XRCID('BUTTON_UP')
         self.ID_BUTTON_DOWN = xrc.XRCID('BUTTON_DOWN')
-        wx.EVT_BUTTON(self, self.ID_BUTTON_UP, self.OnButtonUp)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_DOWN, self.OnButtonDown)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_APPEND, self.OnButtonAppend)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_EDIT, self.OnButtonEdit)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_REMOVE, self.OnButtonRemove)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_UP, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_DOWN, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_REMOVE, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_EDIT, self.OnUpdateUI)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonUp, id=self.ID_BUTTON_UP)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonDown, id=self.ID_BUTTON_DOWN)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonAppend, id=self.ID_BUTTON_APPEND)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonEdit, id=self.ID_BUTTON_EDIT)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonRemove, id=self.ID_BUTTON_REMOVE)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_UP)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_DOWN)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_REMOVE)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_EDIT)
     def OnButtonUp(self, evt):
         i = self.list.GetSelection()
         str = self.list.GetString(i)
@@ -487,9 +490,8 @@ class ContentDialog(wx.Dialog):
 class ContentCheckListDialog(ContentDialog):
     '''Dialog for editing content checklist attributes.'''
     def __init__(self, parent, value):
-        pre = wx.PreDialog()
-        g.res.LoadOnDialog(pre, parent, 'DIALOG_CONTENT_CHECKLIST')
-        self.PostCreate(pre)
+        wx.Dialog.__init__(self)
+        g.res.LoadDialog(self, parent, 'DIALOG_CONTENT_CHECKLIST')
         self.list = xrc.XRCCTRL(self, 'CHECK_LIST')
         # Set list items
         i = 0
@@ -505,15 +507,15 @@ class ContentCheckListDialog(ContentDialog):
         self.ID_BUTTON_REMOVE = xrc.XRCID('BUTTON_REMOVE')
         self.ID_BUTTON_UP = xrc.XRCID('BUTTON_UP')
         self.ID_BUTTON_DOWN = xrc.XRCID('BUTTON_DOWN')
-        wx.EVT_BUTTON(self, self.ID_BUTTON_UP, self.OnButtonUp)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_DOWN, self.OnButtonDown)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_APPEND, self.OnButtonAppend)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_EDIT, self.OnButtonEdit)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_REMOVE, self.OnButtonRemove)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_UP, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_DOWN, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_REMOVE, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_EDIT, self.OnUpdateUI)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonUp, id=self.ID_BUTTON_UP)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonDown, id=self.ID_BUTTON_DOWN)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonAppend, id=self.ID_BUTTON_APPEND)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonEdit, id=self.ID_BUTTON_EDIT)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonRemove, id=self.ID_BUTTON_REMOVE)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_UP)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_DOWN)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_REMOVE)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_EDIT)
     def OnButtonUp(self, evt):
         i = self.list.GetSelection()
         str, ch = self.list.GetString(i), self.list.IsChecked(i)
@@ -532,9 +534,8 @@ class ContentCheckListDialog(ContentDialog):
 class ContentHelpListDialog(wx.Dialog):
     '''Dialog for editing content attributes with help text.'''
     def __init__(self, parent, value):
-        pre = wx.PreDialog()
-        g.res.LoadOnDialog(pre, parent, 'DIALOG_CONTENT_HELPLIST')
-        self.PostCreate(pre)
+        wx.Dialog.__init__(self)
+        g.res.LoadDialog(self, parent, 'DIALOG_CONTENT_HELPLIST')
         self.list = xrc.XRCCTRL(self, 'LIST')
         self.list.InsertColumn(0, 'label')
         self.list.InsertColumn(1, 'tooltip')
@@ -542,9 +543,9 @@ class ContentHelpListDialog(wx.Dialog):
         # Set list items
         i = 0
         for v,t,h in value:
-            self.list.InsertStringItem(i, v)
-            self.list.SetStringItem(i, 1, t)
-            self.list.SetStringItem(i, 2, h)
+            self.list.InsertItem(i, v)
+            self.list.SetItem(i, 1, t)
+            self.list.SetItem(i, 2, h)
             i += 1
         self.SetAutoLayout(True)
         self.GetSizer().Fit(self)
@@ -554,30 +555,30 @@ class ContentHelpListDialog(wx.Dialog):
         self.ID_BUTTON_REMOVE = xrc.XRCID('BUTTON_REMOVE')
         self.ID_BUTTON_UP = xrc.XRCID('BUTTON_UP')
         self.ID_BUTTON_DOWN = xrc.XRCID('BUTTON_DOWN')
-        wx.EVT_BUTTON(self, self.ID_BUTTON_UP, self.OnButtonUp)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_DOWN, self.OnButtonDown)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_APPEND, self.OnButtonAppend)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_EDIT, self.OnButtonEdit)
-        wx.EVT_BUTTON(self, self.ID_BUTTON_REMOVE, self.OnButtonRemove)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_UP, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_DOWN, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_REMOVE, self.OnUpdateUI)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_EDIT, self.OnUpdateUI)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonUp, id=self.ID_BUTTON_UP)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonDown, id=self.ID_BUTTON_DOWN)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonAppend, id=self.ID_BUTTON_APPEND)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonEdit, id=self.ID_BUTTON_EDIT)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonRemove, id=self.ID_BUTTON_REMOVE)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_UP)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_DOWN)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_REMOVE)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_EDIT)
     def OnButtonUp(self, evt):
         i = self.list.GetNextItem(-1, state = wx.LIST_STATE_SELECTED)
         v, t, h  = self.list.GetItem(i, 0), self.list.GetItem(i, 1), self.list.GetItem(i, 2)
         self.list.DeleteItem(i)
-        i = self.list.InsertStringItem(i-1, v.GetText())
-        self.list.SetStringItem(i, 1, t.GetText())
-        self.list.SetStringItem(i, 2, h.GetText())
+        i = self.list.InsertItem(i-1, v.GetText())
+        self.list.SetItem(i, 1, t.GetText())
+        self.list.SetItem(i, 2, h.GetText())
         self.list.SetItemState(i, wx.LIST_STATE_SELECTED, wx.LIST_STATE_SELECTED)
     def OnButtonDown(self, evt):
         i = self.list.GetNextItem(-1, state = wx.LIST_STATE_SELECTED)
         v, t, h  = self.list.GetItem(i, 0), self.list.GetItem(i, 1), self.list.GetItem(i, 2)
         self.list.DeleteItem(i)
-        i = self.list.InsertStringItem(i+1, v.GetText())
-        self.list.SetStringItem(i, 1, t.GetText())
-        self.list.SetStringItem(i, 2, h.GetText())
+        i = self.list.InsertItem(i+1, v.GetText())
+        self.list.SetItem(i, 1, t.GetText())
+        self.list.SetItem(i, 2, h.GetText())
         self.list.SetItemState(i, wx.LIST_STATE_SELECTED, wx.LIST_STATE_SELECTED)
     def OnButtonAppend(self, evt):
         dlg = g.res.LoadDialog(self, 'DIALOG_HELPTEXT')
@@ -586,9 +587,9 @@ class ContentHelpListDialog(wx.Dialog):
         h = xrc.XRCCTRL(dlg, 'HELPTEXT')
         if dlg.ShowModal() == wx.ID_OK:
             i = self.list.GetItemCount()
-            self.list.InsertStringItem(i, v.GetValue())
-            self.list.SetStringItem(i, 1, t.GetValue())
-            self.list.SetStringItem(i, 2, h.GetValue())
+            self.list.InsertItem(i, v.GetValue())
+            self.list.SetItem(i, 1, t.GetValue())
+            self.list.SetItem(i, 2, h.GetValue())
         dlg.Destroy()
     def OnButtonEdit(self, evt):
         s = self.list.GetNextItem(-1, state = wx.LIST_STATE_SELECTED)
@@ -600,9 +601,9 @@ class ContentHelpListDialog(wx.Dialog):
         t.SetValue(self.list.GetItem(s, 1).GetText())
         h.SetValue(self.list.GetItem(s, 2).GetText())
         if dlg.ShowModal() == wx.ID_OK:
-            self.list.SetStringItem(s, 0, v.GetValue())
-            self.list.SetStringItem(s, 1, t.GetValue())
-            self.list.SetStringItem(s, 2, h.GetValue())
+            self.list.SetItem(s, 0, v.GetValue())
+            self.list.SetItem(s, 1, t.GetValue())
+            self.list.SetItem(s, 2, h.GetValue())
         dlg.Destroy()
     def OnButtonRemove(self, evt):
         self.list.DeleteItem(self.list.GetNextItem(-1, state = wx.LIST_STATE_SELECTED))
@@ -698,9 +699,8 @@ class ParamContentHelpList(ParamContent):
 class IntListDialog(wx.Dialog):
     '''Dialog for editing integer lists.'''
     def __init__(self, parent, value):
-        pre = wx.PreDialog()
-        g.res.LoadOnDialog(pre, parent, 'DIALOG_INTLIST')
-        self.PostCreate(pre)
+        wx.Dialog.__init__(self)
+        g.res.LoadDialog(self, parent, 'DIALOG_INTLIST')
         self.list = xrc.XRCCTRL(self, 'LIST')
         # Set list items
         value.sort()
@@ -710,11 +710,11 @@ class IntListDialog(wx.Dialog):
         self.GetSizer().Fit(self)
         # Callbacks
         self.spinCtrl = xrc.XRCCTRL(self, 'SPIN')
-        wx.EVT_BUTTON(self, xrc.XRCID('BUTTON_ADD'), self.OnButtonAdd)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonAdd, id=xrc.XRCID('BUTTON_ADD'))
         self.ID_BUTTON_REMOVE = xrc.XRCID('BUTTON_REMOVE')
-        wx.EVT_BUTTON(self, self.ID_BUTTON_REMOVE, self.OnButtonRemove)
-        wx.EVT_BUTTON(self, xrc.XRCID('BUTTON_CLEAR'), self.OnButtonClear)
-        wx.EVT_UPDATE_UI(self, self.ID_BUTTON_REMOVE, self.OnUpdateUI)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonRemove, id=self.ID_BUTTON_REMOVE)
+        self.Bind(wx.EVT_BUTTON, self.OnButtonClear, id=xrc.XRCID('BUTTON_CLEAR'))
+        self.Bind(wx.EVT_UPDATE_UI, self.OnUpdateUI, id=self.ID_BUTTON_REMOVE)
     def OnButtonAdd(self, evt):
         # Check that it's unique
         try:
@@ -837,9 +837,8 @@ class ParamOrientation(RadioBox):
 
 class ParamBitmap(PPanel):
     def __init__(self, parent, name):
-        pre = wx.PrePanel()
-        g.res.LoadOnPanel(pre, parent, 'PANEL_BITMAP')
-        self.PostCreate(pre)
+        PPanel.__init__(self, parent=None, name=name)  #! Workaround for bug in LoadPanel?
+        g.res.LoadPanel(self, parent, 'PANEL_BITMAP')
         self.modified = False
         self.radio_std = xrc.XRCCTRL(self, 'RADIO_STD')
         self.radio_file = xrc.XRCCTRL(self, 'RADIO_FILE')
@@ -847,12 +846,12 @@ class ParamBitmap(PPanel):
         self.text = xrc.XRCCTRL(self, 'TEXT_FILE')
         self.button = xrc.XRCCTRL(self, 'BUTTON_BROWSE')
         self.textModified = False
-        wx.EVT_RADIOBUTTON(self, xrc.XRCID('RADIO_STD'), self.OnRadioStd)
-        wx.EVT_RADIOBUTTON(self, xrc.XRCID('RADIO_FILE'), self.OnRadioFile)
-        wx.EVT_BUTTON(self, xrc.XRCID('BUTTON_BROWSE'), self.OnButtonBrowse)
-        wx.EVT_COMBOBOX(self, xrc.XRCID('COMBO_STD'), self.OnCombo)
-        wx.EVT_TEXT(self, xrc.XRCID('COMBO_STD'), self.OnChange)
-        wx.EVT_TEXT(self, xrc.XRCID('TEXT_FILE'), self.OnChange)
+        self.Bind(wx.EVT_RADIOBUTTON, self.OnRadioStd, id=xrc.XRCID('RADIO_STD'))
+        self.Bind(wx.EVT_RADIOBUTTON, self.OnRadioFile, id=xrc.XRCID('RADIO_FILE'))
+        self.Bind(wx.EVT_BUTTON, self.OnButtonBrowse, id=xrc.XRCID('BUTTON_BROWSE'))
+        self.Bind(wx.EVT_COMBOBOX, self.OnCombo, id=xrc.XRCID('COMBO_STD'))
+        self.Bind(wx.EVT_TEXT, self.OnChange, id=xrc.XRCID('COMBO_STD'))
+        self.Bind(wx.EVT_TEXT, self.OnChange, id=xrc.XRCID('TEXT_FILE'))
     def OnRadioStd(self, evt):
         Presenter.setApplied(False)
         self.SetValue(['wxART_MISSING_IMAGE',''])
