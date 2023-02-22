@@ -266,11 +266,11 @@ class _Listener:
             exts = 'XRC files (*.xrc)|*.xrc'
             if g.useMeta: exts += '|CRX files (*.crx)|*.crx'
             dlg = wx.FileDialog(self.frame, 'Save As', dirname, '', exts,
-                               wx.SAVE | wx.OVERWRITE_PROMPT | wx.CHANGE_DIR)
+                               wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT | wx.FD_CHANGE_DIR)
             if dlg.ShowModal() == wx.ID_OK:
                 path = dlg.GetPath()
-                if isinstance(path, unicode):
-                    path = path.encode(sys.getfilesystemencoding())
+                #!if isinstance(path, unicode):
+                #    path = path.encode(sys.getfilesystemencoding())
                 if not os.path.splitext(path)[1]:
                     if g.useMeta:
                         path += '.crx'
