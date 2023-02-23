@@ -302,8 +302,8 @@ class StdDialogButtonSizer(component.Sizer):
         # This sizer orders buttons by fixed ordering, so we must
         # get the ID to find them
         try:
-            n = filter(is_element, node.childNodes)[index]
-            n = filter(is_element, n.childNodes)[0]
+            n = tuple(filter(is_element, node.childNodes))[index]
+            n = tuple(filter(is_element, n.childNodes))[0]
             id = n.getAttribute('name')
         except IndexError:
             return None
