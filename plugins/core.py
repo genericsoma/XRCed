@@ -213,6 +213,7 @@ component.Manager.setMenu(c, 'container', 'simple wizard page', 'wxWizardPageSim
 class ParamButtons(params.ParamBinaryOr):
     '''Button flags.'''
     values = ['wxOK', 'wxCANCEL', 'wxYES', 'wxNO', 'wxHELP', 'wxNO_DEFAULT']
+    equal = {}
 c = component.SmartContainer('wxPropertySheetDialog', ['frame','book','window','top_level'],
                    ['pos', 'size', 'title', 'centered', 'icon', 'buttons'],
                    params={'buttons': ParamButtons},
