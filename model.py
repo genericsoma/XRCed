@@ -48,12 +48,11 @@ class _Model:
         dom = minidom.parse(f)
         f.close()
         self.init(dom)
-
-        # Set encoding global variable and default encoding
-        #!!if dom.encoding:
-        #    wx.SetDefaultPyEncoding(dom.encoding.encode())
-        #else:
-        #    dom.encoding = ''
+        if dom.encoding:
+            # wx.SetDefaultPyEncoding(dom.encoding.encode())
+            pass  #!!
+        else:
+            dom.encoding = ''
 
     def saveXML(self, path):
         if self.dom.encoding:
