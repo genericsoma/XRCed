@@ -137,6 +137,7 @@ Please upgrade wxWidgets to %d.%d.%d or higher.''' % MinWxVersion)
 
     def OnExit(self):
         self.WriteConfig()
+        return AppBase.OnExit(self)
 
     def ReadConfig(self):
         # Settings
