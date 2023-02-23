@@ -712,7 +712,7 @@ class _Presenter:
         text = node.toxml()#Model.dom.encoding)
         dom.unlink()
         lines = text.split('\n')
-        maxLen = max(map(len, lines))
+        maxLen = max(tuple(map(len, lines)))
         w = max(40, min(80, maxLen))
         h = max(20, min(40, len(lines)))
         dlg = view.ScrolledMessageDialog(view.frame, text, 'XML Source',

@@ -113,11 +113,11 @@ def create_component(node):
     panel = comp.getAttribute(node, 'panel')
     if panel:
         try:
-            pos = tuple(map(int, comp.getAttribute(node, 'pos').split(',')))  #!! original seemed wrong--sends map instead of tuple for pos - this puts wizard in wrong location in tools window
+            pos = tuple(map(int, comp.getAttribute(node, 'pos').split(',')))
         except:
             pos = component.DEFAULT_POS
         try:
-            span = tuple(map(int, comp.getAttribute(node, 'span').split(',')))  #!! original seemed wrong--sends map instead of tuple for span - this puts wizard in wrong location in tools window
+            span = tuple(map(int, comp.getAttribute(node, 'span').split(',')))
         except:
             span = (1, 1)
         Manager.setTool(c, panel, pos=pos, span=span)

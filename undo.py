@@ -20,7 +20,8 @@ class UndoManager:
         TRACE('RegisterUndo: %s', undoObj.label)
         self.undo.append(undoObj)
         while len(self.undo) > undo_depth: self.undo.pop(0)
-        map(Undo.destroy, self.redo)
+        for item in self.redo:
+            Undo.destroy(item)
         self.redo = []
         self.UpdateToolHelp()
     def GetUndoLabel(self):
@@ -42,9 +43,11 @@ class UndoManager:
         Presenter.setModified()
         self.UpdateToolHelp()
     def Clear(self):
-        map(Undo.destroy, self.undo)
+        for item in self.undo:
+            Undo.destroy(item)
         self.undo = []
-        map(Undo.destroy, self.redo)
+        for item in self.redo:
+            Undo.destroy(item)
         self.redo = []
         self.UpdateToolHelp()
     def CanUndo(self):

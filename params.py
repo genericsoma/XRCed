@@ -1041,7 +1041,7 @@ class StylePanel(wx.Panel):
         return [(self.tag, '|'.join(checked))]
 
     def SetValues(self, values):
-        styles = map(str.strip, values[0][1].split('|'))
+        styles = tuple(map(str.strip, values[0][1].split('|')))
         for s,check in self.controls:
             check.SetValue(s in styles or (s in self.equivStyles and self.equivStyles[s] in styles))
 

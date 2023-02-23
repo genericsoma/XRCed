@@ -131,7 +131,8 @@ class Panel(wx.Panel):
 
         oldLabel = self.nb.GetPageText(self.nb.GetSelection())
         self.nb.SetSelection(0)
-        map(self.nb.RemovePage, range(self.nb.GetPageCount()-1, 0, -1))
+        for x in range(self.nb.GetPageCount()-1, 0, -1):
+            self.nb.RemovePage(x)
 
         # Don't freeze while removing the pages, but do it
         # after the removes instead.  See
@@ -246,7 +247,8 @@ class Panel(wx.Panel):
     def Clear(self):
         self.comp = None
         self.nb.SetSelection(0)
-        map(self.nb.RemovePage, range(self.nb.GetPageCount()-1, 0, -1))
+        for x in range(self.nb.GetPageCount()-1, 0, -1):
+            self.nb.RemovePage(x)
         self.pageA.Reset()
         self.undo = None
 

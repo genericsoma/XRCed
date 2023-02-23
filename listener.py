@@ -799,7 +799,8 @@ Homepage: http://xrced.sourceforge.net\
     # Expand/collapse subtree
     def OnExpand(self, evt):
         if self.tree.GetSelection():
-            map(self.tree.ExpandAllChildren, self.tree.GetSelections())
+            for item in self.tree.GetSelections():
+                self.tree.ExpandAllChildren(item)
         else:
             self.tree.ExpandAll()
 
@@ -807,7 +808,8 @@ Homepage: http://xrced.sourceforge.net\
         # Prevent multiple calls to setData
         self.tree.Unbind(wx.EVT_TREE_ITEM_COLLAPSED)
         if self.tree.GetSelection():
-            map(self.tree.CollapseAllChildren, self.tree.GetSelections())
+            for item in self.tree.GetSelections():
+                self.tree.CollapseAllChildren(item)
         else:
             self.tree.CollapseAll()
         self.tree.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.OnTreeItemCollapsed)
