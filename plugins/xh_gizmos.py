@@ -18,7 +18,7 @@ class LEDNumberCtrlXmlHandler(xrc.XmlResourceHandler):
         self.AddStyle('wxLED_ALIGN_RIGHT', gizmos.LED_ALIGN_RIGHT)
         self.AddStyle('wxLED_ALIGN_CENTER', gizmos.LED_ALIGN_CENTER)
         self.AddStyle('wxLED_DRAW_FADED', gizmos.LED_DRAW_FADED)
-        
+
     def CanHandle(self,node):
         return self.IsOfClass(node, 'LEDNumberCtrl')
 
@@ -47,7 +47,7 @@ class EditableListBoxXmlHandler(xrc.XmlResourceHandler):
         self.AddStyle('wxEL_ALLOW_NEW', gizmos.EL_ALLOW_NEW)
         self.AddStyle('wxEL_ALLOW_EDIT', gizmos.EL_ALLOW_EDIT)
         self.AddStyle('wxEL_ALLOW_DELETE', gizmos.EL_ALLOW_DELETE)
-        
+
     def CanHandle(self, node):
         return self.IsOfClass(node, 'EditableListBox')
 #        return self.IsOfClass(node, 'EditableListBox') or \
@@ -56,7 +56,7 @@ class EditableListBoxXmlHandler(xrc.XmlResourceHandler):
     # Process XML parameters and create the object
     def DoCreateResource(self):
         assert self.GetInstance() is None
-        
+
         w = gizmos.EditableListBox(self.GetParentAsWindow(),
                                    self.GetID(),
                                    self.GetText("label"),
@@ -64,12 +64,12 @@ class EditableListBoxXmlHandler(xrc.XmlResourceHandler):
                                    self.GetSize(),
                                    self.GetStyle(),
                                    self.GetName())
-        
+
         # Doesn't work
         #self.insideBox = True
         #self.CreateChildrenPrivately(None, self.GetParamNode('content'))
         #self.insideBox = False
-        
+
         # Long way
         strings = []
         n = self.GetParamNode('content')
@@ -104,15 +104,15 @@ class TreeListCtrlXmlHandler(xrc.XmlResourceHandler):
         self.AddStyle('wxTR_HAS_VARIABLE_ROW_HEIGHT', wx.TR_HAS_VARIABLE_ROW_HEIGHT)
         self.AddStyle('wxTR_SINGLE', wx.TR_SINGLE)
         self.AddStyle('wxTR_MULTIPLE', wx.TR_MULTIPLE)
-        self.AddStyle('wxTR_EXTENDED', wx.TR_EXTENDED)
-        
+        self.AddStyle('wxTR_EXTENDED', wx.lib.agw.hypertreelist.TR_EXTENDED)
+
     def CanHandle(self, node):
         return self.IsOfClass(node, 'TreeListCtrl')
 
     # Process XML parameters and create the object
     def DoCreateResource(self):
         assert self.GetInstance() is None
-        
+
         w = gizmos.TreeListCtrl(self.GetParentAsWindow(),
                                 self.GetID(),
                                 style=self.GetStyle(),
@@ -138,21 +138,21 @@ class DynamicSashWindowXmlHandler(xrc.XmlResourceHandler):
         # Custom styles
         self.AddStyle('wxDS_MANAGE_SCROLLBARS', gizmos.DS_MANAGE_SCROLLBARS)
         self.AddStyle('wxDS_DRAG_CORNER', gizmos.DS_DRAG_CORNER)
-        
+
     def CanHandle(self, node):
         return self.IsOfClass(node, 'DynamicSashWindow')
 
     # Process XML parameters and create the object
     def DoCreateResource(self):
         assert self.GetInstance() is None
-        
+
         w = gizmos.DynamicSashWindow(self.GetParentAsWindow(),
                                      self.GetID(),
                                      self.GetPosition(),
                                      self.GetSize(),
                                      self.GetStyle(),
                                      self.GetName())
-        
+
         self.SetupWindow(w)
         return w
 
