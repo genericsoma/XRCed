@@ -853,8 +853,11 @@ Homepage: http://xrced.sourceforge.net\
         # Permit multiple selection for same level only
         state = wx.GetMouseState()
         oldItem = evt.GetOldItem()
-        if oldItem and (state.ShiftDown() or state.ControlDown()) and \
-           self.tree.GetItemParent(oldItem) != self.tree.GetItemParent(evt.GetItem()):
+        item = evt.GetItem()
+        #!! This is supposed to veto multiple selections with different parents but it does not work
+        if (oldItem.IsOk() and item.IsOk() and
+                (state.ShiftDown() or state.ControlDown()) and
+                (self.tree.GetItemParent(oldItem) != self.tree.GetItemParent(item))):
             evt.Veto()
             self.frame.SetStatusText('Veto selection (not same level)')
             return
