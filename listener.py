@@ -849,7 +849,11 @@ Homepage: http://xrced.sourceforge.net\
     def OnTreeSelChanging(self, evt):
         #TRACE('OnTreeSelChanging: %s=>%s', evt.GetOldItem(), evt.GetItem())
         #TRACE('Selection: %s', self.tree.GetSelections())
-        if not self.tree.GetSelections(): return
+        try:  #! Workaround for tree events generated after tree has been destroyed
+            if not self.tree.GetSelections(): return
+        except RuntimeError:
+            TRACE('OnTreeSelChanging: RuntimeError')
+            return
         # Permit multiple selection for same level only
         state = wx.GetMouseState()
         oldItem = evt.GetOldItem()
@@ -868,9 +872,13 @@ Homepage: http://xrced.sourceforge.net\
 
     def OnTreeSelChanged(self, evt):
         TRACE('OnTreeSelChanged: %s=>%s', evt.GetOldItem(), evt.GetItem())
+        try:  #! Workaround for tree events generated after tree has been destroyed
+            if not self.tree.GetSelections(): return
+        except RuntimeError:
+            TRACE('OnTreeSelChanged: RuntimeError')
+            return
         TRACE('Selection: %s', self.tree.GetSelections())
         # On wxMSW (at least) two selection events are generated
-        if not self.tree.GetSelections(): return
         if evt.GetOldItem():
             if not Presenter.applied:
                 Presenter.update(evt.GetOldItem())
