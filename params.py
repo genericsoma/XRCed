@@ -885,7 +885,7 @@ class ParamBitmap(PPanel):
             self.value = ['', '']
         else:
             self.value = value
-        self.combo.SetValue(self.value[0])
+        self.combo.ChangeValue(self.value[0])
         self.text.ChangeValue(self.value[1])  # update text ctrl
         self.updateRadios()
     def OnButtonBrowse(self, evt):
