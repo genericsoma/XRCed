@@ -17,6 +17,7 @@ if wx.Platform == '__WXMAC__':
     images.__dict__.update(images_32x32.__dict__)
 import wx.aui
 import wx.html
+from wx.adv import PropertySheetDialog
 
 def create_view():
     '''
@@ -452,11 +453,11 @@ class ScrolledMessageDialog(wx.Dialog):
 
 ################################################################################
 
-class PrefsDialog(wx.Dialog): #(wx.PropertySheetDialog): !!! not wrapper yed - wrap by hand
+class PrefsDialog(PropertySheetDialog): #(wx.PropertySheetDialog): !!! not wrapper yed - wrap by hand
 
     def __init__(self, parent):
-        pre = g.res.LoadObject(parent, 'DIALOG_PREFS', 'wxPropertySheetDialog')
-        self.PostCreate(pre)
+        PropertySheetDialog.__init__(self)
+        g.res.LoadObject(self, parent, 'DIALOG_PREFS', 'wxPropertySheetDialog')
 
         self.Fit()
 
@@ -467,25 +468,25 @@ class PrefsDialog(wx.Dialog): #(wx.PropertySheetDialog): !!! not wrapper yed - w
 
         self.check_proportionContainer = xrc.XRCCTRL(self, 'check_proportionContainer')
         id = self.check_proportionContainer.GetId()
-        wx.EVT_CHECKBOX(self, id, self.OnCheck)
+        self.Bind(wx.EVT_CHECKBOX, self.OnCheck, id=id)
         self.checkControls[id] = (xrc.XRCCTRL(self, 'spin_proportionContainer'),
                                   conf.defaultsContainer, 'option')
 
         self.check_flagContainer = xrc.XRCCTRL(self, 'check_flagContainer')
         id = self.check_flagContainer.GetId()
-        wx.EVT_CHECKBOX(self, id, self.OnCheck)
+        self.Bind(wx.EVT_CHECKBOX, self.OnCheck, id=id)
         self.checkControls[id] = (xrc.XRCCTRL(self, 'text_flagContainer'),
                                   conf.defaultsContainer, 'flag')
 
         self.check_proportionControl = xrc.XRCCTRL(self, 'check_proportionControl')
         id = self.check_proportionControl.GetId()
-        wx.EVT_CHECKBOX(self, id, self.OnCheck)
+        self.Bind(wx.EVT_CHECKBOX, self.OnCheck, id=id)
         self.checkControls[id] = (xrc.XRCCTRL(self, 'spin_proportionControl'),
                                   conf.defaultsControl, 'option')
 
         self.check_flagControl = xrc.XRCCTRL(self, 'check_flagControl')
         id = self.check_flagControl.GetId()
-        wx.EVT_CHECKBOX(self, id, self.OnCheck)
+        self.Bind(wx.EVT_CHECKBOX, self.OnCheck, id=id)
         self.checkControls[id] = (xrc.XRCCTRL(self, 'text_flagControl'),
                                   conf.defaultsControl, 'flag')
 
