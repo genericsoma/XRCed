@@ -129,11 +129,13 @@ class DictAttribute:
     def add(cls, parentNode, attribute, value):
         fontElem = Model.dom.createElement(attribute)
         parentNode.appendChild(fontElem)
-        for a in filter(value.has_key, cls.attributes):
-            elem = Model.dom.createElement(a)
-            text = Model.dom.createTextNode(value[a])
-            elem.appendChild(text)
-            fontElem.appendChild(elem)
+        for a in cls.attributes:
+            if a in value:
+                print(value[a])
+                elem = Model.dom.createElement(a)
+                text = Model.dom.createTextNode(value[a])
+                elem.appendChild(text)
+                fontElem.appendChild(elem)
     @staticmethod
     def get(node):
         if node is None: return {}
