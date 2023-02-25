@@ -272,13 +272,15 @@ class ParamFont(PPanel):
         if font.GetEncoding() == wx.FONTENCODING_SYSTEM:
             encName = ''
         else:
-            encName = wx.FontMapper.GetEncodingName(font.GetEncoding()).encode()
+            #encName = wx.FontMapper.GetEncodingName(font.GetEncoding()).encode()
+            encName = wx.FontMapper.GetEncodingName(font.GetEncoding())  #! Name must be string
         value = {'size': str(font.GetPointSize()),
                  'family': fontFamiliesWx2Xml.get(font.GetFamily(), "default"),
                  'style': fontStylesWx2Xml.get(font.GetStyle(), "normal"),
                  'weight': fontWeightsWx2Xml.get(font.GetWeight(), "normal"),
                  'underlined': str(int(font.GetUnderlined())),
-                 'face': font.GetFaceName().encode(),
+                 #'face': font.GetFaceName().encode(),
+                 'face': font.GetFaceName(),  #! Face must be string
                  'encoding': encName}
         self.SetValue(value)
         Presenter.setApplied(False)
