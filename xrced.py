@@ -29,7 +29,7 @@ from . import undo
 from . import plugin
 
 # for helping to attach to the process with gdb...
-#print "%s\nPID: %d\n" % (wx.version(), os.getpid()); #raw_input("Press Enter...")
+#print "%s\nPID: %d\n" % (wx.version(), os.getpid()); #input("Press Enter...")
 
 # to enable the widget inspector & its hot-key
 USE_INSPECTOR = False

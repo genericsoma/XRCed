@@ -612,7 +612,7 @@ Homepage: http://xrced.sourceforge.net\
     def OnDebugCMD(self, evt):
         while 1:
             try:
-                exec(raw_input('C:\> '))
+                exec(input('C:\> '))
             except EOFError:
                 print('^D')
                 break
