@@ -111,7 +111,7 @@ class ParamBinaryOr(PPanel):
         return self.combo.GetValue()
     def SetValue(self, value):
         self.freeze = True
-        self.combo.SetValue(value)
+        self.combo.ChangeValue(value)
         self.freeze = False
     def SetValues(self):
         self.combo.InsertItems(self.values, 0)
@@ -961,7 +961,7 @@ class ParamCombo(PPanel):
     def GetValue(self):
         return self.combo.GetValue()
     def SetValue(self, value):
-        self.combo.SetValue(value)
+        self.combo.ChangeValue(value)
     def SetValues(self):
         for v in self.values:
             self.combo.Append(v)
