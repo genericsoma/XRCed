@@ -461,7 +461,7 @@ class _Listener:
 
     def OnUnselect(self, evt):
         self.tree.UnselectAll()
-        if not Presenter.applied: Presenter.update()
+        if not Presenter.applied: Presenter.update()  #!! Missing parameter
         Presenter.setData(self.tree.root)
 
     def OnMoveUp(self, evt):
@@ -814,7 +814,7 @@ Homepage: http://xrced.sourceforge.net\
             self.tree.CollapseAll()
         self.tree.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.OnTreeItemCollapsed)
         if not self.tree.GetSelection():
-            if not Presenter.applied: Presenter.update()
+            if not Presenter.applied: Presenter.update()  #!! Missing parameter
             Presenter.setData(self.tree.root)
 
     def OnCollapseAll(self, evt):
@@ -823,7 +823,7 @@ Homepage: http://xrced.sourceforge.net\
         self.tree.UnselectAll()
         self.tree.CollapseAll()
         self.tree.Bind(wx.EVT_TREE_ITEM_COLLAPSED, self.OnTreeItemCollapsed)
-        if not Presenter.applied: Presenter.update()
+        if not Presenter.applied: Presenter.update()  #!! Missing parameter
         Presenter.setData(self.tree.root)
 
     #
@@ -858,7 +858,6 @@ Homepage: http://xrced.sourceforge.net\
         state = wx.GetMouseState()
         oldItem = evt.GetOldItem()
         item = evt.GetItem()
-        #!! This is supposed to veto multiple selections with different parents but it does not work
         if (oldItem.IsOk() and item.IsOk() and
                 (state.ShiftDown() or state.ControlDown()) and
                 (self.tree.GetItemParent(oldItem) != self.tree.GetItemParent(item))):
@@ -897,7 +896,7 @@ Homepage: http://xrced.sourceforge.net\
     def OnTreeItemCollapsed(self, evt):
         # If no selection, reset panel
         if not self.tree.GetSelection():
-            if not Presenter.applied: Presenter.update()
+            if not Presenter.applied: Presenter.update()  #!! Missing parameter
             Presenter.setData(self.tree.root)
         evt.Skip()
 

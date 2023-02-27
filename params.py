@@ -1099,7 +1099,7 @@ class CheckListBoxComboPopup(wx.ComboPopup):
             Presenter.setApplied(False)
         wx.ComboPopup.OnDismiss(self)
 
-    if wx.Platform in ['__WXMAC__', '__WXMSW__']:  #!!
+    if wx.Platform in ['__WXMAC__', '__WXMSW__']:
         def OnMotion(self, evt):
             self.curitem  = self.clbc.HitTest(evt.GetPosition())
             if self.curitem >= 0:
