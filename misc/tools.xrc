@@ -344,17 +344,6 @@ book</label>
             <border>5</border>
           </object>
           <object class="sizeritem">
-            <object class="EditableListBox">
-              <size>80,80</size>
-              <content>
-                <item>item1</item>
-                <item>item2</item>
-              </content>
-            </object>
-            <option>1</option>
-            <border>5</border>
-          </object>
-          <object class="sizeritem">
             <object class="TreeListCtrl">
               <size>40,30</size>
             </object>
