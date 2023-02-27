@@ -467,7 +467,7 @@ class MenuBar(component.SimpleContainer):
     # Menubar should be shown in a normal frame
     def makeTestWin(self, res, name):
         frame = wx.Frame(None, -1, '%s: %s' % (self.klass, name), name=STD_NAME)
-        object = res.LoadMenuBarOnFrame(frame, STD_NAME)
+        object = res.LoadMenuBar(frame, STD_NAME)
         return None, frame
     def getRect(self, obj):
         return None
