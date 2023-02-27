@@ -13,7 +13,7 @@ TRACE('*** creating wx.lib components')
 
 # wx.lib.foldpanelbar.FoldPanelBar
 
-c = component.SmartContainer('wx.lib.foldpanelbar.FoldPanelBar', ['book', 'window', 'control'],
+c = component.SmartContainer('FoldPanelBar', ['book', 'window', 'control'],
                    ['pos', 'size'],
                    implicit_klass='foldpanel',
                    implicit_page='FoldPanel',

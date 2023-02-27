@@ -25,7 +25,7 @@ class FoldPanelBarXmlHandler(xrc.XmlResourceHandler):
         self._isInside = False
 
     def CanHandle(self,node):
-        return not self._isInside and self.IsOfClass(node, 'wx.lib.foldpanelbar.FoldPanelBar') or \
+        return not self._isInside and self.IsOfClass(node, 'FoldPanelBar') or \
                self._isInside and self.IsOfClass(node, 'foldpanel')
 
     # Process XML parameters and create the object
